@@ -1,0 +1,6 @@
+# Spring配置
+spring:
+  application:
+    name: ahead-commons-core
+  profiles:
+    active: logging,ds

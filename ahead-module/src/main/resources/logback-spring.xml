@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+	<contextName>Ahead</contextName>
+	<!-- 属性文件:在properties文件中找到对应的配置项 -->
+	<springProperty scope="context" name="logging.path"	source="logging.path" defaultValue="./logs" />
+	<appender name="consoleLog"	class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<!--格式化输出（配色）：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+
+	<!--根据日志级别分离日志，分别输出到不同的文件 -->
+	<appender name="fileInfoLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>DENY</onMatch>
+			<onMismatch>ACCEPT</onMismatch>
+		</filter>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+		<!--滚动策略 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!--按时间保存日志 修改格式可以按小时、按天、月来保存 -->
+			<fileNamePattern>${logging.path}/Ahead.info.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<!-- each file should be at most 100MB, keep 60 days worth of history, but at most 20GB  -->
+			<maxFileSize>10KB</maxFileSize>
+			<maxHistory>2</maxHistory>
+			<totalSizeCap>20GB</totalSizeCap>
+		</rollingPolicy>
+	</appender>
+
+	<appender name="fileErrorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>ERROR</level>
+		</filter>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+		<!--滚动策略 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!--按时间保存日志 修改格式可以按小时、按天、月来保存 -->
+			<fileNamePattern>${logging.path}/Ahead.error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<!-- each file should be at most 100MB, keep 60 days worth of history, but at most 20GB  -->
+			<maxFileSize>10KB</maxFileSize>
+			<maxHistory>2</maxHistory>
+			<totalSizeCap>20GB</totalSizeCap>
+		</rollingPolicy>
+	</appender>
+	<!-- 指定需要关闭输出日志的包 -->
+	<logger name="org.apache" level="ERROR"></logger>
+	<logger name="org.springframework" level="ERROR"></logger>
+	<logger name="org.hibernate" level="ERROR"></logger>
+	<logger name="org.mybatis" level="ERROR"></logger>
+	<logger name="com.baomidou" level="ERROR"></logger>
+	
+	<!-- addtivity:是否向上级loger传递打印信息。默认是true。 -->
+	<root level="info">
+		<appender-ref ref="consoleLog" />
+		<appender-ref ref="fileInfoLog" />
+		<appender-ref ref="fileErrorLog" />
+	</root>
+</configuration>

@@ -1,0 +1,6 @@
+# 日志就
+logging:
+  config: classpath:logback.xml
+  level:
+    cn.dcube.ahead: DEBUG  # mybatis时 打印sql
+    org.springframework.jdbc.core.JdbcTemplate: DEBUG # data-jdbc 打印sql

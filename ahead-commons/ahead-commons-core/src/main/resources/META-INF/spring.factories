@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  cn.dcube.ahead.context.SpringContext,\
+  cn.dcube.ahead.jpa.fei.dao.impl.FeiDaoImpl,\
+  cn.dcube.ahead.jpa.fei.service.impl.FeiServiceImpl

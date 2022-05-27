@@ -1,0 +1,6 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  cn.dcube.ahead.kafka.config.KafkaConfig,\
+  cn.dcube.ahead.kafka.config.KafkaTopicConfig,\
+  cn.dcube.ahead.kafka.consumer.SingleKafkaListener,\
+  cn.dcube.ahead.kafka.consumer.BatchKafkaListener,\
+  cn.dcube.ahead.kafka.producer.KafkaProducer

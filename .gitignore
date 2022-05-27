@@ -1,5 +1,16 @@
+# Eclipse settings
+.settings/
+.project
+.classpath
+.idea/
+
+# idea settings
+*.iml
+
 # Compiled class file
 *.class
+target/
+bin/
 
 # Log file
 *.log

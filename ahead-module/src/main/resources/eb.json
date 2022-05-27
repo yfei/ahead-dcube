@@ -1,0 +1,12 @@
+{
+	"index": {
+		"refresh_interval": "10s",
+		"number_of_shards": "3",
+		"number_of_replicas": "0",
+		"translog": {
+			"flush_threshold_size": "128mb",
+			"sync_interval": "30s",
+			"durability": "async"
+		}
+	}
+}

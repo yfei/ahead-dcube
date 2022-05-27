@@ -1,0 +1,8 @@
+spring:
+  elasticsearch:
+    rest:
+      uris: http://192.168.32.38:9200    #ES的连接地址，多个地址用逗号分隔
+      # username:                        #用户名
+      # password:                        #密码
+      connection-timeout: 1000           #连接超时时间
+      socket-timeout: 1000                 #读取超时时间
