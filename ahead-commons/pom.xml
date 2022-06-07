@@ -88,6 +88,7 @@
 		<module>ahead-commons-kafka</module>
 		<module>ahead-commons-redis</module>
 		<module>ahead-commons-elastic</module>
+		<module>ahead-commons-jpa</module>
 	</modules>
 
 </project>

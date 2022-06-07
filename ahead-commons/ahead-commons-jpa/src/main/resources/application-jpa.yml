@@ -1,0 +1,9 @@
+spring:
+  jpa:
+    show_sql: true # jpa 打印sql
+    hibernate:
+      ddl-auto: none
+    database: MYSQL # 配置数据库类型
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect # 使用MYSQL5作为数据库访问方言

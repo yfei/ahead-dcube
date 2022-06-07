@@ -1,0 +1,1 @@
+改模块提供了SpringContext等应用Context的接口。

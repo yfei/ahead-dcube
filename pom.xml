@@ -14,15 +14,43 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<lombok.version>1.18.18</lombok.version>
-		<ahead.version>1.0.0</ahead.version>
+		<spring-boot.version>2.6.2</spring-boot.version>
+		<spring.version>5.3.14</spring.version>
+		<!-- 注意,这里的version尽量与springboot的保持一致 -->
+		<slf4j.version>2.17.0</slf4j.version>
+		<logback.version>1.2.9</logback.version>
+		<log4j-over-slf4j.version>1.7.32</log4j-over-slf4j.version>
+		
 	</properties>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>${lombok.version}</version>
 			<scope>provided</scope>
+		</dependency>
+		
+		<!-- logback日志依赖 -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version>${logback.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-access</artifactId>
+			<version>${logback.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>log4j-over-slf4j</artifactId>
+			<version>${log4j-over-slf4j.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -44,5 +72,6 @@
 		<module>ahead-commons</module>
 		<module>ahead-module</module>
 		<module>ahead-soc</module>
+		<module>ahead-context</module>
 	</modules>
 </project>
