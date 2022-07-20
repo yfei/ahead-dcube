@@ -5,7 +5,7 @@
 ``` 
   ahead
 	|-- ahead-commons 通用开发框架
-		|-- ahead-commons-utils 通用工具
+		|-- ahead-commons-utils 通用工具(原先包名为ahead-commons-base)
 		|-- ahead-commons-base 框架基础依赖
 		|-- ahead-commons-core 核心框架
 		|-- ahead-commons-web web框架

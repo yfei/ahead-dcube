@@ -121,7 +121,7 @@ public interface IFeiDao extends IDao {
      * @param objects the parameters
      * @return the list of object T
      */
-    public <T extends IEntity> List<T> getByJpql(String jpql, Object... objects);
+    public <T extends Object> List<T> getByJpql(String jpql, Object... objects);
 
     /**
      * get list by sql
@@ -130,7 +130,7 @@ public interface IFeiDao extends IDao {
      * @param objects the parameters
      * @return the list of object T
      */
-    public <T extends IEntity> List<T> getBySQL(String sql, Object... objects);
+    public <T extends Object> List<T> getBySQL(String sql, Object... objects);
 
     /**
      * execute up date by jpql.

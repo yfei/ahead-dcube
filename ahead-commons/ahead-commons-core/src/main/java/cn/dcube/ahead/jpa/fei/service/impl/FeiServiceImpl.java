@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import cn.dcube.ahead.base.exception.ServiceException;
+import cn.dcube.ahead.base.exception.AheadServiceException;
 import cn.dcube.ahead.dao.IDao;
 import cn.dcube.ahead.entity.IEntity;
 import cn.dcube.ahead.jpa.fei.dao.IFeiDao;
@@ -61,7 +61,7 @@ public class FeiServiceImpl implements IFeiService {
             this.dao = (IFeiDao) dao;
         } else {
             logger.error("the dao is not instance of IFeiDao.This service only support IFeiDao.");
-            throw new ServiceException("the dao is not instance of IFeiDao.This service only support IFeiDao.");
+            throw new AheadServiceException("the dao is not instance of IFeiDao.This service only support IFeiDao.");
         }
     }
 

@@ -14,19 +14,20 @@ public class ReflectUtil {
 			field = event.getClass().getDeclaredField(filedName);
 			field.setAccessible(true);
 			Object value = filedValue;
-			if ("java.lang.Long".equals(field.getType().getName())) {
+			String fieldType = field.getType().getTypeName();
+			if ("java.lang.Long".equals(fieldType) || "long".equals(fieldType)) {
 				value = Long.valueOf(value.toString());
-			} else if ("java.lang.Integer".equals(field.getType().getName())) {
+			} else if ("java.lang.Integer".equals(fieldType) || "int".equals(fieldType)) {
 				value = Integer.valueOf(value.toString());
-			} else if ("java.lang.Short".equals(field.getType().getName())) {
+			} else if ("java.lang.Short".equals(fieldType) || "short".equals(fieldType)) {
 				value = Short.valueOf(value.toString());
-			} else if ("java.lang.Byte".equals(field.getType().getName())) {
+			} else if ("java.lang.Byte".equals(fieldType) || "byte".equals(fieldType)) {
 				value = Byte.valueOf(value.toString());
-			} else if ("java.lang.Double".equals(field.getType().getName())) {
+			} else if ("java.lang.Double".equals(fieldType) || "double".equals(fieldType)) {
 				value = Double.valueOf(value.toString());
-			} else if ("java.lang.Float".equals(field.getType().getName())) {
+			} else if ("java.lang.Float".equals(fieldType) || "float".equals(fieldType)) {
 				value = Float.valueOf(value.toString());
-			} else if ("java.lang.String".equals(field.getType().getName())) {
+			} else if ("java.lang.String".equals(fieldType) || "String".equals(fieldType)) {
 				value = value.toString();
 			}
 			field.set(event, value);
@@ -38,5 +39,5 @@ public class ReflectUtil {
 			log.warn("", e);
 		}
 	}
-
+	
 }

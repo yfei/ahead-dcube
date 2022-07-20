@@ -8,12 +8,12 @@ package cn.dcube.ahead.base.exception;
  * @date：2021年3月24日上午9:07:32
  * @since 1.0
  */
-public class ServiceException extends AheadRuntimeException {
+public class AheadServiceException extends AheadRuntimeException {
 
 	/**
 	 * 
 	 */
-	public ServiceException() {
+	public AheadServiceException() {
 		super();
 	}
 
@@ -23,7 +23,7 @@ public class ServiceException extends AheadRuntimeException {
 	 * @param enableSuppression
 	 * @param writableStackTrace
 	 */
-	public ServiceException(String message, Throwable cause, boolean enableSuppression,
+	public AheadServiceException(String message, Throwable cause, boolean enableSuppression,
 			boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
@@ -32,21 +32,21 @@ public class ServiceException extends AheadRuntimeException {
 	 * @param message
 	 * @param cause
 	 */
-	public ServiceException(String message, Throwable cause) {
+	public AheadServiceException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
 	/**
 	 * @param message
 	 */
-	public ServiceException(String message) {
+	public AheadServiceException(String message) {
 		super(message);
 	}
 
 	/**
 	 * @param cause
 	 */
-	public ServiceException(Throwable cause) {
+	public AheadServiceException(Throwable cause) {
 		super(cause);
 	}
 

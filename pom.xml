@@ -71,7 +71,8 @@
 	<modules>
 		<module>ahead-commons</module>
 		<module>ahead-module</module>
-		<module>ahead-soc</module>
-		<module>ahead-context</module>
+		<module>ahead-commons-context</module>
+		<module>ahead-system</module>
+		<module>ahead-auth</module>
 	</modules>
 </project>

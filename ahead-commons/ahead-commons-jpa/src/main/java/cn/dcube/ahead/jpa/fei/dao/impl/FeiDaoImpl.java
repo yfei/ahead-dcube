@@ -271,7 +271,7 @@ public class FeiDaoImpl implements IFeiDao {
 	 * java.lang.Object[])
 	 */
 	@Override
-	public <T extends IEntity> List<T> getByJpql(String jpql, Object... objects) {
+	public <T extends Object> List<T> getByJpql(String jpql, Object... objects) {
 		Query query = this.entityManager.createQuery(jpql);
 		if (objects != null) {
 			for (int i = 0; i < objects.length; i++) {
@@ -287,7 +287,7 @@ public class FeiDaoImpl implements IFeiDao {
 	 * @see cn.cecgw.venus.core.dao.jpa.IJpaDao#getBySQL(java.lang.String,
 	 * java.lang.Object[])
 	 */
-	public <T extends IEntity> List<T> getBySQL(String sql, Object... objects) {
+	public <T extends Object> List<T> getBySQL(String sql, Object... objects) {
 		Query query = this.entityManager.createNativeQuery(sql);
 		if (objects != null) {
 			for (int i = 0; i < objects.length; i++) {

@@ -1,0 +1,39 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>cn.dcube</groupId>
+		<artifactId>ahead-system</artifactId>
+		<version>1.0.0</version>
+	</parent>
+	<artifactId>ahead-system-service-jpa</artifactId>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>cn.dcube</groupId>
+			<artifactId>ahead-commons-base</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cn.dcube</groupId>
+			<artifactId>ahead-system-base</artifactId>
+			<version>${ahead.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>cn.dcube</groupId>
+			<artifactId>ahead-commons-jpa</artifactId>
+			<version>${ahead.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>cn.dcube</groupId>
+			<artifactId>ahead-system-service</artifactId>
+			<version>${ahead.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>cn.dcube</groupId>
+			<artifactId>ahead-commons-web</artifactId>
+			<version>${ahead.version}</version>
+		</dependency>
+	</dependencies>
+</project>

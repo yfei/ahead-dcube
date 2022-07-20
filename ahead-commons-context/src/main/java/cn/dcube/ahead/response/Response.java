@@ -6,7 +6,7 @@ public class Response {
 	 * 返回状态
 	 */
 	private boolean success = true;
-
+	
 	/**
 	 * 数据,如果success为true,此项需要有值
 	 */
