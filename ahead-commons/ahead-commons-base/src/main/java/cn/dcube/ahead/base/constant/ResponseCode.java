@@ -7,7 +7,7 @@ package cn.dcube.ahead.base.constant;
  *
  */
 public enum ResponseCode {
-
+	
 	// 标准http响应
 	SUCCESS(200),
 

@@ -1,4 +1,4 @@
-package cn.dcube.ahead.base.date;
+package cn.ahead.dcube.commons.date;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;

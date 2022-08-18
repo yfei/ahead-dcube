@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>cn.ahead.dcube</groupId>
+		<artifactId>ahead-dcube-commons</artifactId>
+		<version>1.0.0</version>
+	</parent>
+	<artifactId>ahead-dcube-jpa</artifactId>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>cn.ahead.dcube</groupId>
+			<artifactId>ahead-dcube-utils</artifactId>
+			<version>${ahead.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>cn.ahead.dcube</groupId>
+			<artifactId>ahead-dcube-base</artifactId>
+			<version>${ahead.version}</version>
+		</dependency>
+
+		<!-- data jpa -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid-spring-boot-starter</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+	</dependencies>
+</project>

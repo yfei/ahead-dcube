@@ -7,12 +7,14 @@
 		<artifactId>ahead</artifactId>
 		<version>1.0.0</version>
 	</parent>
-	<artifactId>ahead-commons</artifactId>
+	<groupId>cn.ahead.dcube</groupId>
+	<artifactId>ahead-dcube-commons</artifactId>
 	<packaging>pom</packaging>
 
 	<properties>
 		<spring-boot.version>2.6.2</spring-boot.version>
 		<nacos.version>0.6.0</nacos.version>
+		<hutool.version>5.5.8</hutool.version>
 	</properties>
 
 	<dependencyManagement>
@@ -49,6 +51,19 @@
 				<artifactId>nacos-api</artifactId>
 				<version>${nacos.version}</version>
 			</dependency>
+
+			<dependency>
+				<groupId>cn.hutool</groupId>
+				<artifactId>hutool-all</artifactId>
+				<version>${hutool.version}</version>
+			</dependency>
+
+			<!-- druid -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid-spring-boot-starter</artifactId>
+				<version>1.1.9</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -74,25 +89,15 @@
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
 		</dependency>
+
 	</dependencies>
-
 	<modules>
-		<!-- 基础模块 -->
-		<module>ahead-commons-base</module>
-		<!-- 通讯模块 -->
-		<module>ahead-commons-transport</module>
-		<!-- 核心模块 -->
-		<module>ahead-commons-core</module>
-		<!-- web模块 -->
-		<module>ahead-commons-web</module>
-		<!-- swagger 模块 -->
-		<module>ahead-commons-swagger</module>
-		<!-- 日志模块 -->
-		<module>ahead-commons-log</module>
-		<module>ahead-commons-kafka</module>
-		<module>ahead-commons-redis</module>
-		<module>ahead-commons-elastic</module>
-		<module>ahead-commons-jpa</module>
+		<module>ahead-dcube-base</module>
+		<module>ahead-dcube-utils</module>
+		<module>ahead-dcube-jpa</module>
+		<module>ahead-dcube-mybatis</module>
+		<module>ahead-dcube-email</module>
+		<module>ahead-dcube-auth</module>
+		<module>ahead-dcube-core</module>
 	</modules>
-
 </project>
