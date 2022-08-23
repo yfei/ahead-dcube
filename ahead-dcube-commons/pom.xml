@@ -15,6 +15,7 @@
 		<spring-boot.version>2.6.2</spring-boot.version>
 		<nacos.version>0.6.0</nacos.version>
 		<hutool.version>5.5.8</hutool.version>
+		<commons-lang3.version>3.10</commons-lang3.version>
 	</properties>
 
 	<dependencyManagement>
@@ -99,5 +100,6 @@
 		<module>ahead-dcube-email</module>
 		<module>ahead-dcube-auth</module>
 		<module>ahead-dcube-core</module>
+		<module>ahead-dcube-log</module>
 	</modules>
 </project>

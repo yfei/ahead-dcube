@@ -1,5 +1,7 @@
 package cn.ahead.dcube.base.response;
 
+import cn.ahead.dcube.base.response.code.ResponseCode;
+import cn.ahead.dcube.base.response.code.StatusCode;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -12,15 +14,19 @@ import lombok.EqualsAndHashCode;
 @Data
 public class SuccessResponse extends Response {
 
-	public SuccessResponse() {
-		super(true, ResponseCode.SUCCESS, null, null);
+	protected SuccessResponse() {
+		super(true, ResponseCode.SUCCESS.getCode(), null, null);
+	}
+	
+	protected SuccessResponse(boolean success, StatusCode status, Object data) {
+		super(success, status, data);
 	}
 
-	public SuccessResponse(Object object) {
-		super(true, ResponseCode.SUCCESS, object, null);
+	protected SuccessResponse(Object object) {
+		super(true, ResponseCode.SUCCESS.getCode(), object, null);
 	}
 
-	public SuccessResponse(Integer code, Object object, String message) {
+	protected SuccessResponse(Integer code, Object object, String message) {
 		super(true, code, object, message);
 	}
 

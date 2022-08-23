@@ -61,5 +61,16 @@ public class ThreadPoolUtil {
 	public static ScheduledExecutorService createScheduledExecutor(String prefix) {
 		return Executors.newScheduledThreadPool(1, new NamedThreadFactory(prefix, false));
 	}
+	
+	/**
+	 * 创建基于线程池设计的任务调度
+	 *
+	 * @param prefix
+	 *            线程实例名称的前缀
+	 * @return 线程池对象
+	 */
+	public static ScheduledExecutorService createScheduledExecutor(int poolSize, String prefix) {
+		return Executors.newScheduledThreadPool(poolSize, new NamedThreadFactory(prefix, false));
+	}
 
 }
