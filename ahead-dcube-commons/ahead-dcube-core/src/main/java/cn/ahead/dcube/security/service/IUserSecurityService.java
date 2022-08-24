@@ -30,5 +30,12 @@ public interface IUserSecurityService {
 	 * @return
 	 */
 	public String logout(String token);
+	
+	/**
+	 * 修改密码
+	 * @param oldPass
+	 * @param newPass
+	 */
+	public void chpass(String oldPass, String newPass);
 
 }

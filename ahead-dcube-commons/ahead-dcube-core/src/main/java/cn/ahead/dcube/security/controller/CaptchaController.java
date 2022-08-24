@@ -61,7 +61,7 @@ public class CaptchaController {
 			capStr = code = captchaProducer.createText();
 			image = captchaProducer.createImage(capStr);
 		}
-		request.getSession().setAttribute(AheadSysConstant.SESSION_CAPTCHA, capStr);
+		request.getSession().setAttribute(AheadSysConstant.SESSION_CAPTCHA, code);
 		// 转换流信息写出
 		FastByteArrayOutputStream os = new FastByteArrayOutputStream();
 		try {

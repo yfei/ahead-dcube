@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.ahead.dcube.base.constant.AheadSysConstant;
@@ -27,8 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/v1/security")
-@Slf4j
-public class LoginController {
+public class SecurityController {
 
 	@Autowired
 	private IUserSecurityService service;
@@ -94,6 +94,16 @@ public class LoginController {
 				return ErrorResponse.error(SecurityResponseCode.UNAUTHORIZED);
 			}
 		}
+	}
+
+	/**
+	 * 更改登陆人密码
+	 */
+	@RequestMapping(path="/chpass",method = RequestMethod.POST)
+	public Response changePasswd(HttpServletRequest request, @RequestParam(value = "op") String oldPass,
+			@RequestParam(value = "np") String passwd) {
+		service.chpass(oldPass, passwd);
+		return SuccessResponse.success();
 	}
 
 }

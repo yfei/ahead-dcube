@@ -12,6 +12,8 @@ import lombok.Data;
 
 @Data
 public class LoginUserModel implements IDTO, UserDetails {
+	
+	private Long id;
 
 	// 姓名
 	private String name;

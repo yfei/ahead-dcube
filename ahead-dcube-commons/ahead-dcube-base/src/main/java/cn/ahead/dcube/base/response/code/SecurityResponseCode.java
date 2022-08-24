@@ -15,10 +15,12 @@ public enum SecurityResponseCode implements StatusCode {
 
 	USERNOTFOUND(1000, "用户或者密码错误!"),
 
-	CAPTCHAERROR(1001, "验证码不正确!"),
+	PASSERROR(1001, "密码错误!"),
 
-	CAPTCHATIMEOUT(1002,"验证码过期!");
-	
+	CAPTCHAERROR(1002, "验证码不正确!"),
+
+	CAPTCHATIMEOUT(1003, "验证码过期!");
+
 	private int code;
 
 	private String msg;

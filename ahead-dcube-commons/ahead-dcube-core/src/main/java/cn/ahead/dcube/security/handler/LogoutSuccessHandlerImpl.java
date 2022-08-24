@@ -22,6 +22,8 @@ import cn.ahead.dcube.security.token.service.TokenService;
  */
 @Configuration
 public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
+	
+	
 	@Autowired
 	private TokenService tokenService;
 

@@ -98,8 +98,7 @@
 		<module>ahead-dcube-jpa</module>
 		<module>ahead-dcube-mybatis</module>
 		<module>ahead-dcube-email</module>
-		<module>ahead-dcube-auth</module>
 		<module>ahead-dcube-core</module>
-		<module>ahead-dcube-log</module>
+		<module>ahead-dcube-redis</module>
 	</modules>
 </project>
