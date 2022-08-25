@@ -70,9 +70,8 @@
 	</build>
 	<modules>
 		<module>ahead-commons</module>
+		<module>ahead-commons-context</module>
 		<module>ahead-module</module>
-		<module>ahead-context</module>
-		<module>ahead-dcube</module>
 		<module>ahead-dcube-module</module>
 		<module>ahead-dcube-commons</module>
 	</modules>

@@ -13,13 +13,11 @@ import org.hibernate.annotations.NotFoundAction;
 
 import cn.ahead.dcube.base.constant.AheadSysConstant;
 import cn.ahead.dcube.jpa.entity.IAuditEntity;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Table
-@Entity(name = "tb_sys_org1")
-@Getter
-@Setter
+@Entity
+@Table(name = "tb_sys_org")
+@Data
 public class OrgEntity extends IAuditEntity {
 
 	@Column(name = "parent_id")

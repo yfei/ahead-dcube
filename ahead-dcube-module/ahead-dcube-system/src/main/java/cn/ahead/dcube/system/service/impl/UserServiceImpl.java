@@ -1,6 +1,7 @@
 package cn.ahead.dcube.system.service.impl;
 
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +13,13 @@ import org.springframework.stereotype.Service;
 
 import cn.ahead.dcube.base.dto.LoginUserModel;
 import cn.ahead.dcube.base.dto.OrgDTO;
-import cn.ahead.dcube.base.exception.AheadServiceException;
+import cn.ahead.dcube.base.response.code.ResponseCode;
 import cn.ahead.dcube.base.response.code.SecurityResponseCode;
 import cn.ahead.dcube.schedule.AsyncScheduler;
+import cn.ahead.dcube.security.exception.AheadSecurityException;
 import cn.ahead.dcube.security.log.SecurityLogFactory;
 import cn.ahead.dcube.security.token.service.TokenService;
+import cn.ahead.dcube.security.util.SecurityUtil;
 import cn.ahead.dcube.system.dao.UserRepository;
 import cn.ahead.dcube.system.entity.UserEntity;
 import cn.ahead.dcube.system.service.IOrgService;
@@ -65,15 +68,17 @@ public class UserServiceImpl implements IUserService {
 						.execute(SecurityLogFactory.recordLogininfo(account, SecurityLogFactory.OPER_LOGIN,
 								SecurityLogFactory.RESULT_ERROR, SecurityResponseCode.USERNOTFOUND.getCode(),
 								SecurityResponseCode.USERNOTFOUND.getMsg()));
-				throw new AheadServiceException(SecurityResponseCode.USERNOTFOUND);
+				throw new AheadSecurityException(SecurityResponseCode.USERNOTFOUND);
 			} else {
 				AsyncScheduler.me()
 						.execute(SecurityLogFactory.recordLogininfo(account, SecurityLogFactory.OPER_LOGIN,
 								SecurityLogFactory.RESULT_ERROR, SecurityResponseCode.USERNOTFOUND.getCode(),
 								SecurityResponseCode.USERNOTFOUND.getMsg()));
-				throw new AheadServiceException(e);
+				throw new AheadSecurityException(e);
 			}
 		}
+		AsyncScheduler.me().execute(SecurityLogFactory.recordLogininfo(account, SecurityLogFactory.OPER_LOGIN,
+				SecurityLogFactory.RESULT_SUCCESS, ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMsg()));
 		LoginUserModel loginUser = (LoginUserModel) authentication.getPrincipal();
 		// 生成token
 		return tokenService.setToken(loginUser);
@@ -83,6 +88,19 @@ public class UserServiceImpl implements IUserService {
 	public String logout(String token) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Transactional
+	@Override
+	public void chpass(String oldPass, String newPass) {
+		// 获取当前用户
+		LoginUserModel currentUser = SecurityUtil.getCurrentUser();
+		UserEntity user = repository.getById(currentUser.getId());
+		if (SecurityUtil.matchesPassword(oldPass, user.getPassword())) {
+			repository.chpass(user.getId(), SecurityUtil.encryptPassword(newPass));
+		} else {
+			throw new AheadSecurityException(SecurityResponseCode.PASSERROR);
+		}
 	}
 
 }
