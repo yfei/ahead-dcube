@@ -32,7 +32,7 @@ import lombok.Data;
  * @author yangfei
  */
 @Configuration
-@ConfigurationProperties(prefix = "ahead.captcha")
+@ConfigurationProperties(prefix = "captcha")
 @Data
 public class CaptchaConfig {
 	

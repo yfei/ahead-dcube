@@ -28,6 +28,12 @@ public enum OperType {
 	// 列表
 	LIST,
 
+	// 统计
+	STATISTICS,
+
+	// 统计
+	ANALYSIS,
+
 	// 授权
 	GRANT,
 
@@ -42,5 +48,4 @@ public enum OperType {
 
 	// 其他
 	OTHER;
-
 }

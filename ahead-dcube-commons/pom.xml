@@ -16,10 +16,17 @@
 		<nacos.version>0.6.0</nacos.version>
 		<hutool.version>5.5.8</hutool.version>
 		<commons-lang3.version>3.10</commons-lang3.version>
+		<swagger.version>2.9.2</swagger.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
+			<!-- spring-boot-devtools -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-devtools</artifactId>
+				<optional>true</optional> <!-- 表示依赖不会传递 -->
+			</dependency>
 			<!-- Spring boot -->
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
@@ -65,6 +72,20 @@
 				<artifactId>druid-spring-boot-starter</artifactId>
 				<version>1.1.9</version>
 			</dependency>
+			
+			<!-- swagger2 -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+            <!-- swagger2-UI-->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
@@ -100,5 +121,6 @@
 		<module>ahead-dcube-email</module>
 		<module>ahead-dcube-core</module>
 		<module>ahead-dcube-redis</module>
+		<module>ahead-dcube-swagger</module>
 	</modules>
 </project>

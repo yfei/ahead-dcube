@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import cn.ahead.dcube.base.dto.LoginUserModel;
+import cn.ahead.dcube.base.dto.CommonLoginUser;
 import cn.ahead.dcube.commons.util.StringUtils;
 import cn.ahead.dcube.security.token.cache.TokenCache;
 import cn.ahead.dcube.security.token.config.TokenConfig;
@@ -32,7 +32,7 @@ public class TokenService {
 	 * 
 	 * @param loginUser
 	 */
-	public String setToken(LoginUserModel loginUser) {
+	public String setToken(CommonLoginUser loginUser) {
 		return tokenCache.set(loginUser);
 	}
 

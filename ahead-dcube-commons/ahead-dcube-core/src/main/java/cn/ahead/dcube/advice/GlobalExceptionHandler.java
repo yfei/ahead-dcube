@@ -1,4 +1,4 @@
-package cn.ahead.dcube.exception;
+package cn.ahead.dcube.advice;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

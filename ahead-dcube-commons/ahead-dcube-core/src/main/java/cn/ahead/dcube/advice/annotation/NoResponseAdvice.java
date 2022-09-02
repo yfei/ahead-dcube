@@ -1,4 +1,4 @@
-package cn.ahead.dcube.exception.annotation;
+package cn.ahead.dcube.advice.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

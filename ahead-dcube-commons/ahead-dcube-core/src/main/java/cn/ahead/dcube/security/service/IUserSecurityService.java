@@ -1,6 +1,6 @@
 package cn.ahead.dcube.security.service;
 
-import cn.ahead.dcube.base.dto.LoginUserModel;
+import cn.ahead.dcube.security.dto.SysLoginUser;
 
 /**
  * 用户认证service的实现
@@ -16,7 +16,7 @@ public interface IUserSecurityService {
 	 * @param account
 	 * @return 登录用户信息
 	 */
-	public LoginUserModel selectUserByUserName(String account);
+	public SysLoginUser selectUserByUserName(String account);
 	
 	/**
 	 * 登陆

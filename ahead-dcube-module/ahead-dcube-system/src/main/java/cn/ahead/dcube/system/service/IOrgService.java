@@ -3,7 +3,7 @@ package cn.ahead.dcube.system.service;
 import java.util.List;
 import java.util.Map;
 
-import cn.ahead.dcube.base.dto.OrgDTO;
+import cn.ahead.dcube.base.dto.SysOrg;
 import cn.ahead.dcube.base.service.IService;
 
 public interface IOrgService extends IService {
@@ -14,7 +14,7 @@ public interface IOrgService extends IService {
 	 * @param id
 	 * @return
 	 */
-	public OrgDTO getOrg(Long id, boolean withChildren);
+	public SysOrg getOrg(Long id, boolean withChildren);
 
 	/**
 	 * 查询当前org以及下属org的code列表
@@ -39,7 +39,7 @@ public interface IOrgService extends IService {
 	 * @param orgCode
 	 * @return
 	 */
-	public List<OrgDTO> getOrgDescade(String orgCode);
+	public List<SysOrg> getOrgDescade(String orgCode);
 
 	/**
 	 * 查询所有org的code和name的映射

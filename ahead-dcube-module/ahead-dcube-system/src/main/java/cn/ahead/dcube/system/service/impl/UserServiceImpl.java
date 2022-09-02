@@ -11,19 +11,20 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import cn.ahead.dcube.base.dto.LoginUserModel;
-import cn.ahead.dcube.base.dto.OrgDTO;
+import cn.ahead.dcube.base.dto.CommonLoginUser;
+import cn.ahead.dcube.base.dto.SysOrg;
 import cn.ahead.dcube.base.response.code.ResponseCode;
 import cn.ahead.dcube.base.response.code.SecurityResponseCode;
-import cn.ahead.dcube.schedule.AsyncScheduler;
+import cn.ahead.dcube.security.dto.SysLoginUser;
 import cn.ahead.dcube.security.exception.AheadSecurityException;
-import cn.ahead.dcube.security.log.SecurityLogFactory;
+import cn.ahead.dcube.security.log.LoginRecordFactory;
 import cn.ahead.dcube.security.token.service.TokenService;
 import cn.ahead.dcube.security.util.SecurityUtil;
 import cn.ahead.dcube.system.dao.UserRepository;
 import cn.ahead.dcube.system.entity.UserEntity;
 import cn.ahead.dcube.system.service.IOrgService;
 import cn.ahead.dcube.system.service.IUserService;
+import cn.ahead.dcube.task.AsyncTaskScheduler;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -41,16 +42,16 @@ public class UserServiceImpl implements IUserService {
 	private TokenService tokenService;
 
 	@Override
-	public LoginUserModel selectUserByUserName(String account) {
+	public SysLoginUser selectUserByUserName(String account) {
 		UserEntity user = repository.findByAccount(account);
 		if (user != null) {
-			LoginUserModel userModel = new LoginUserModel();
+			SysLoginUser userModel = new SysLoginUser();
 			BeanUtils.copyProperties(user, userModel);
-			OrgDTO org = orgService.getOrg(user.getOrgId(), false);
+			SysOrg org = orgService.getOrg(user.getOrgId(), false);
 			userModel.setOrg(org);
 			return userModel;
 		} else {
-			return new LoginUserModel();
+			return new SysLoginUser();
 		}
 	}
 
@@ -64,22 +65,22 @@ public class UserServiceImpl implements IUserService {
 					.authenticate(new UsernamePasswordAuthenticationToken(account, password));
 		} catch (Exception e) {
 			if (e instanceof BadCredentialsException) {
-				AsyncScheduler.me()
-						.execute(SecurityLogFactory.recordLogininfo(account, SecurityLogFactory.OPER_LOGIN,
-								SecurityLogFactory.RESULT_ERROR, SecurityResponseCode.USERNOTFOUND.getCode(),
+				AsyncTaskScheduler.me()
+						.execute(LoginRecordFactory.recordLogininfo(account, LoginRecordFactory.OPER_LOGIN,
+								LoginRecordFactory.RESULT_ERROR, SecurityResponseCode.USERNOTFOUND.getCode(),
 								SecurityResponseCode.USERNOTFOUND.getMsg()));
 				throw new AheadSecurityException(SecurityResponseCode.USERNOTFOUND);
 			} else {
-				AsyncScheduler.me()
-						.execute(SecurityLogFactory.recordLogininfo(account, SecurityLogFactory.OPER_LOGIN,
-								SecurityLogFactory.RESULT_ERROR, SecurityResponseCode.USERNOTFOUND.getCode(),
+				AsyncTaskScheduler.me()
+						.execute(LoginRecordFactory.recordLogininfo(account, LoginRecordFactory.OPER_LOGIN,
+								LoginRecordFactory.RESULT_ERROR, SecurityResponseCode.USERNOTFOUND.getCode(),
 								SecurityResponseCode.USERNOTFOUND.getMsg()));
 				throw new AheadSecurityException(e);
 			}
 		}
-		AsyncScheduler.me().execute(SecurityLogFactory.recordLogininfo(account, SecurityLogFactory.OPER_LOGIN,
-				SecurityLogFactory.RESULT_SUCCESS, ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMsg()));
-		LoginUserModel loginUser = (LoginUserModel) authentication.getPrincipal();
+		AsyncTaskScheduler.me().execute(LoginRecordFactory.recordLogininfo(account, LoginRecordFactory.OPER_LOGIN,
+				LoginRecordFactory.RESULT_SUCCESS, ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMsg()));
+		CommonLoginUser loginUser = (CommonLoginUser) authentication.getPrincipal();
 		// 生成token
 		return tokenService.setToken(loginUser);
 	}
@@ -94,7 +95,7 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public void chpass(String oldPass, String newPass) {
 		// 获取当前用户
-		LoginUserModel currentUser = SecurityUtil.getCurrentUser();
+		CommonLoginUser currentUser = SecurityUtil.getCurrentUser();
 		UserEntity user = repository.getById(currentUser.getId());
 		if (SecurityUtil.matchesPassword(oldPass, user.getPassword())) {
 			repository.chpass(user.getId(), SecurityUtil.encryptPassword(newPass));

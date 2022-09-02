@@ -2,7 +2,7 @@ package cn.ahead.dcube.security.token.cache;
 
 import java.util.Map;
 
-import cn.ahead.dcube.base.dto.LoginUserModel;
+import cn.ahead.dcube.base.dto.CommonLoginUser;
 
 public interface TokenCache {
 
@@ -20,14 +20,14 @@ public interface TokenCache {
 	 * @param token
 	 * @return
 	 */
-	public LoginUserModel get(String token);
+	public CommonLoginUser get(String token);
 
 	/**
 	 * 设置token
 	 * 
 	 * @param loginUser
 	 */
-	public String set(LoginUserModel loginUser);
+	public String set(CommonLoginUser loginUser);
 
 	/**
 	 * 删除token
@@ -41,6 +41,6 @@ public interface TokenCache {
 	 * 
 	 * @return
 	 */
-	public Map<String, LoginUserModel> list();
+	public Map<String, CommonLoginUser> list();
 
 }

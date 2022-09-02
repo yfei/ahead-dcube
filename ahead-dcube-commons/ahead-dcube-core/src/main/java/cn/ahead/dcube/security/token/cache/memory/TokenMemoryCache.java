@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
-import cn.ahead.dcube.base.dto.LoginUserModel;
+import cn.ahead.dcube.base.dto.CommonLoginUser;
 import cn.ahead.dcube.security.token.cache.TokenCache;
 import cn.ahead.dcube.security.token.config.TokenConfig;
 import cn.ahead.dcube.security.token.util.TokenUtil;
@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class TokenMemoryCache implements TokenCache {
 
-	private TimedCache<String, LoginUserModel> tokenCache;
+	private TimedCache<String, CommonLoginUser> tokenCache;
 
 	@Autowired
 	private TokenConfig config;
@@ -34,7 +34,7 @@ public class TokenMemoryCache implements TokenCache {
 	@PostConstruct
 	public void init() {
 		log.debug("the token cache is TokenMemoryCache.");
-		tokenCache = new TimedCache<String, LoginUserModel>(config.getExpireTime() * 60 * 1000L);
+		tokenCache = new TimedCache<String, CommonLoginUser>(config.getExpireTime() * 60 * 1000L);
 	}
 
 	@Override
@@ -43,12 +43,12 @@ public class TokenMemoryCache implements TokenCache {
 	}
 
 	@Override
-	public LoginUserModel get(String token) {
+	public CommonLoginUser get(String token) {
 		return tokenCache.get(token);
 	}
 
 	@Override
-	public String set(LoginUserModel loginUser) {
+	public String set(CommonLoginUser loginUser) {
 		String token = TokenUtil.sign(loginUser);
 		tokenCache.put(token, loginUser);
 		return token;
@@ -60,7 +60,7 @@ public class TokenMemoryCache implements TokenCache {
 	}
 
 	@Override
-	public Map<String, LoginUserModel> list() {
+	public Map<String, CommonLoginUser> list() {
 		return null;
 	}
 

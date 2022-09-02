@@ -15,6 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.filter.CorsFilter;
 
+import cn.ahead.dcube.commons.crypto.Md5Util;
 import cn.ahead.dcube.security.filter.JwtAuthenticationTokenFilter;
 import cn.ahead.dcube.security.handler.AuthenticationEntryPointImpl;
 import cn.ahead.dcube.security.handler.LogoutSuccessHandlerImpl;
@@ -90,6 +91,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.authorizeRequests()
 				// 对于登录login 验证码captchaImage 允许匿名访问
 				.antMatchers("/**/login", "/captcha").anonymous()
+				// swagger
+				.antMatchers("/swagger-ui.html").anonymous()
+                .antMatchers("/swagger-resources/**").anonymous()
+                .antMatchers("/webjars/**").anonymous()
+                .antMatchers("/*/api-docs").anonymous()
+                // druid
+                .antMatchers("/druid/**").anonymous()
 				.antMatchers(HttpMethod.GET, "/*.html", "/**/*.html", "/**/*.css", "/**/*.js").permitAll();
 		// 除上面外的所有请求全部需要鉴权认证
 		httpSecurity.authorizeRequests().anyRequest().authenticated();
@@ -119,7 +127,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
 	}
 	
-	public static void main(String[] args) {
-		System.out.println(new BCryptPasswordEncoder().encode("ab9820cb61b427ea8d2569044d5f2a3f"));
+	public static void main(String[] args) throws Exception {
+		System.out.println(new BCryptPasswordEncoder().encode(Md5Util.md5("123456")));
 	}
+	
+	
 }

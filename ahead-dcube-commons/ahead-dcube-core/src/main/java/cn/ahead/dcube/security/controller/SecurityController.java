@@ -19,11 +19,11 @@ import cn.ahead.dcube.base.response.SuccessResponse;
 import cn.ahead.dcube.base.response.code.ResponseCode;
 import cn.ahead.dcube.base.response.code.SecurityResponseCode;
 import cn.ahead.dcube.log.annotation.Log;
-import cn.ahead.dcube.schedule.AsyncScheduler;
 import cn.ahead.dcube.security.config.CaptchaConfig;
-import cn.ahead.dcube.security.log.SecurityLogFactory;
+import cn.ahead.dcube.security.log.LoginRecordFactory;
 import cn.ahead.dcube.security.service.IUserSecurityService;
 import cn.ahead.dcube.security.token.service.TokenService;
+import cn.ahead.dcube.task.AsyncTaskScheduler;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -46,7 +46,6 @@ public class SecurityController {
 	 * @return 结果
 	 */
 	@RequestMapping(path = "/login", method = { RequestMethod.GET, RequestMethod.POST })
-	@Log
 	public Response login(HttpServletRequest request, @RequestParam(value = "account") String account,
 			@RequestParam(value = "passwd") String passwd,
 			@RequestParam(value = "captcha", required = false) String captcha) {
@@ -54,16 +53,16 @@ public class SecurityController {
 		if (config.isEnable()) {
 			String captchaText = (String) request.getSession().getAttribute(AheadSysConstant.SESSION_CAPTCHA);
 			if (captchaText == null) {
-				AsyncScheduler.me()
-						.execute(SecurityLogFactory.recordLogininfo(account, SecurityLogFactory.OPER_LOGIN,
-								SecurityLogFactory.RESULT_ERROR, SecurityResponseCode.CAPTCHATIMEOUT.getCode(),
+				AsyncTaskScheduler.me()
+						.execute(LoginRecordFactory.recordLogininfo(account, LoginRecordFactory.OPER_LOGIN,
+								LoginRecordFactory.RESULT_ERROR, SecurityResponseCode.CAPTCHATIMEOUT.getCode(),
 								SecurityResponseCode.CAPTCHATIMEOUT.getMsg()));
 				return Response.error(SecurityResponseCode.CAPTCHATIMEOUT);
 			}
 			if (!captchaText.equalsIgnoreCase(captcha)) {
-				AsyncScheduler.me()
-						.execute(SecurityLogFactory.recordLogininfo(account, SecurityLogFactory.OPER_LOGIN,
-								SecurityLogFactory.RESULT_ERROR, SecurityResponseCode.CAPTCHAERROR.getCode(),
+				AsyncTaskScheduler.me()
+						.execute(LoginRecordFactory.recordLogininfo(account, LoginRecordFactory.OPER_LOGIN,
+								LoginRecordFactory.RESULT_ERROR, SecurityResponseCode.CAPTCHAERROR.getCode(),
 								SecurityResponseCode.CAPTCHAERROR.getMsg()));
 				return Response.error(SecurityResponseCode.CAPTCHAERROR);
 			}

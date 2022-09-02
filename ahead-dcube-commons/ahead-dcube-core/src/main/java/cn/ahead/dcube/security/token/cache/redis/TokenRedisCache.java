@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
-import cn.ahead.dcube.base.dto.LoginUserModel;
+import cn.ahead.dcube.base.dto.CommonLoginUser;
 import cn.ahead.dcube.security.token.cache.TokenCache;
 import cn.ahead.dcube.security.token.config.TokenConfig;
 import lombok.extern.slf4j.Slf4j;
@@ -38,13 +38,13 @@ public class TokenRedisCache implements TokenCache{
 	}
 
 	@Override
-	public LoginUserModel get(String token) {
+	public CommonLoginUser get(String token) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String set(LoginUserModel loginUser) {
+	public String set(CommonLoginUser loginUser) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -57,7 +57,7 @@ public class TokenRedisCache implements TokenCache{
 
 
 	@Override
-	public Map<String, LoginUserModel> list() {
+	public Map<String, CommonLoginUser> list() {
 		// TODO Auto-generated method stub
 		return null;
 	}

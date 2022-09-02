@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import cn.ahead.dcube.base.constant.AheadSysConstant;
-import cn.ahead.dcube.base.dto.LoginUserModel;
+import cn.ahead.dcube.security.dto.SysLoginUser;
 import cn.ahead.dcube.security.token.service.TokenService;
 import cn.ahead.dcube.security.token.util.TokenUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -56,7 +56,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 			}
 		}
 		if (!noauth) {
-			LoginUserModel user = (LoginUserModel) session.getAttribute(AheadSysConstant.SESSION_USER);
+			SysLoginUser user = (SysLoginUser) session.getAttribute(AheadSysConstant.SESSION_USER);
 			UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user,
 					null, user.getAuthorities());
 			authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

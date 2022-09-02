@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.ahead.dcube.base.constant.AheadSysConstant;
-import cn.ahead.dcube.base.dto.OrgDTO;
+import cn.ahead.dcube.base.dto.SysOrg;
 import cn.ahead.dcube.jpa.fei.query.filter.IFilter;
 import cn.ahead.dcube.jpa.fei.query.filter.impl.SimpleFilter;
 import cn.ahead.dcube.jpa.fei.service.impl.FeiServiceImpl;
@@ -25,9 +25,9 @@ public class OrgServiceImpl extends FeiServiceImpl implements IOrgService {
 	private OrgRepository repository;
 
 	@Override
-	public OrgDTO getOrg(Long id, boolean withChildren) {
+	public SysOrg getOrg(Long id, boolean withChildren) {
 		OrgEntity org = repository.getById(id);
-		OrgDTO orgDTO = new OrgDTO();
+		SysOrg orgDTO = new SysOrg();
 		BeanUtils.copyProperties(org, orgDTO);
 		if (withChildren) {
 			// TODO 
@@ -78,23 +78,23 @@ public class OrgServiceImpl extends FeiServiceImpl implements IOrgService {
 	}
 
 	@Override
-	public List<OrgDTO> getOrgDescade(String orgCode) {
+	public List<SysOrg> getOrgDescade(String orgCode) {
 		IFilter filter = new SimpleFilter("code", orgCode)
 				.appendAnd(new SimpleFilter("status", AheadSysConstant.ORG_STATUS_NORMAL));
 		List<OrgEntity> orgs = this.get(OrgEntity.class, filter);
-		List<OrgDTO> orgDtos = new ArrayList<OrgDTO>();
+		List<SysOrg> orgDtos = new ArrayList<SysOrg>();
 		for (OrgEntity org : orgs) {
-			OrgDTO orgDto = new OrgDTO();
+			SysOrg orgDto = new SysOrg();
 			BeanUtils.copyProperties(org, orgDto);
 			orgDtos.add(orgDto);
 
-			List<OrgDTO> children = new ArrayList<OrgDTO>();
+			List<SysOrg> children = new ArrayList<SysOrg>();
 			// 查询子
 			IFilter filterSub = new SimpleFilter("parentOrg.code", orgCode)
 					.appendAnd(new SimpleFilter("status", AheadSysConstant.ORG_STATUS_NORMAL));
 			List<OrgEntity> orgsSub = this.get(OrgEntity.class, filterSub);
 			for (OrgEntity orgSub : orgsSub) {
-				List<OrgDTO> sub = this.getOrgDescade(orgSub.getCode());
+				List<SysOrg> sub = this.getOrgDescade(orgSub.getCode());
 				children.addAll(sub);
 			}
 			orgDto.setChildren(children);

@@ -1,8 +1,5 @@
 package cn.ahead.dcube.commons.util;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -10,21 +7,20 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import sun.misc.BASE64Encoder;
-
 public class StringUtils {
+
+	/** 空字符串 */
+	private static final String EMPTYSTR = "";
 
 	/**
 	 * 下划线
 	 */
 	private static final char SEPARATOR = '_';
 
-
 	/**
 	 * 判断字符串是否为空串
 	 *
-	 * @param value
-	 *            String
+	 * @param value String
 	 * @return true：空 false：非空
 	 */
 	public static boolean isEmpty(String value) {
@@ -34,8 +30,7 @@ public class StringUtils {
 	/**
 	 * 判断字符串不为空串
 	 *
-	 * @param value
-	 *            string
+	 * @param value string
 	 * @return true：非空 false：空
 	 */
 	public static boolean isNotEmpty(String value) {
@@ -45,8 +40,7 @@ public class StringUtils {
 	/**
 	 * 判断字符串是否为null
 	 *
-	 * @param value
-	 *            string
+	 * @param value string
 	 * @return boolean
 	 */
 	public static boolean isNull(String value) {
@@ -56,8 +50,7 @@ public class StringUtils {
 	/**
 	 * 判断对象是否为空
 	 *
-	 * @param value
-	 *            需要判断的对象
+	 * @param value 需要判断的对象
 	 * @return true 空 false 非空
 	 */
 	public static boolean isNull(Object value) {
@@ -67,8 +60,7 @@ public class StringUtils {
 	/**
 	 * 判断对象是否非空
 	 *
-	 * @param value
-	 *            需要判断的对象
+	 * @param value 需要判断的对象
 	 * @return true 非空 false 空
 	 */
 	public static boolean isNotNull(Object value) {
@@ -78,8 +70,7 @@ public class StringUtils {
 	/**
 	 * 判断map对象是否非空
 	 *
-	 * @param map
-	 *            判断对象
+	 * @param map 判断对象
 	 * @return true 非空 false 空
 	 */
 	public static boolean isNotEmpty(Map<?, ?> map) {
@@ -89,8 +80,7 @@ public class StringUtils {
 	/**
 	 * 判断map是否为空
 	 *
-	 * @param map
-	 *            map对象
+	 * @param map map对象
 	 * @return true 空 false 非空
 	 */
 	public static boolean isEmpty(Map<?, ?> map) {
@@ -100,8 +90,7 @@ public class StringUtils {
 	/**
 	 * 判断map是否为非空
 	 *
-	 * @param objects
-	 *            数组对象
+	 * @param objects 数组对象
 	 * @return true 非空 false 空
 	 */
 	public static boolean isNotEmpty(Object[] objects) {
@@ -111,8 +100,7 @@ public class StringUtils {
 	/**
 	 * 判断数组是否为空
 	 *
-	 * @param objects
-	 *            数组对象
+	 * @param objects 数组对象
 	 * @return true 空 false 非空
 	 */
 	public static boolean isEmpty(Object[] objects) {
@@ -122,8 +110,7 @@ public class StringUtils {
 	/**
 	 * 判断集合是否为非空
 	 *
-	 * @param collection
-	 *            集合对象
+	 * @param collection 集合对象
 	 * @return true 非空 false 空
 	 */
 	public static boolean isNotEmpty(Collection<?> collection) {
@@ -133,8 +120,7 @@ public class StringUtils {
 	/**
 	 * 判断集合是否为空
 	 *
-	 * @param collection
-	 *            集合
+	 * @param collection 集合
 	 * @return true 空 false 非空
 	 */
 	public static boolean isEmpty(Collection<?> collection) {
@@ -144,8 +130,7 @@ public class StringUtils {
 	/**
 	 * 驼峰式命名法 例如：user_name->userName
 	 *
-	 * @param s
-	 *            转化字符串
+	 * @param s 转化字符串
 	 * @return 结果字符串
 	 */
 	public static String toCamelCase(String s) {
@@ -174,8 +159,7 @@ public class StringUtils {
 	 * 将下划线大写方式命名的字符串转换为驼峰式。如果转换前的下划线大写方式命名的字符串为空，则返回空字符串。
 	 * 例如：HELLO_WORLD->HelloWorld
 	 *
-	 * @param name
-	 *            转换前的下划线大写方式命名的字符串
+	 * @param name 转换前的下划线大写方式命名的字符串
 	 * @return 转换后的驼峰式命名的字符串
 	 */
 	public static String convertToCamelCase(String name) {
@@ -211,10 +195,8 @@ public class StringUtils {
 	 * 转义{}： format("this is \\{} for {}", "a", "b") -> this is \{} for a<br>
 	 * 转义\： format("this is \\\\{} for {}", "a", "b") -> this is \a for b<br>
 	 *
-	 * @param template
-	 *            文本模板，被替换的部分用 {} 表示
-	 * @param params
-	 *            参数值
+	 * @param template 文本模板，被替换的部分用 {} 表示
+	 * @param params   参数值
 	 * @return 格式化后的文本
 	 */
 	public static String format(String template, Object... params) {
@@ -225,39 +207,9 @@ public class StringUtils {
 	}
 
 	/**
-	 * blob 转 base64
-	 *
-	 * @param bytes
-	 *            二进制
-	 * @return base64字符串
-	 */
-	public static String byteToBase64(byte[] bytes) {
-		String base64Str = "";
-		if (isNotNull(bytes) && bytes.length > 0) {
-			try {
-				InputStream msgContent = new ByteArrayInputStream(bytes);
-				ByteArrayOutputStream output = new ByteArrayOutputStream();
-				byte[] buffer = new byte[100];
-				int n = 0;
-				while (-1 != (n = msgContent.read(buffer))) {
-					output.write(buffer, 0, n);
-				}
-				base64Str = new BASE64Encoder().encode(output.toByteArray());
-				msgContent.close();
-				output.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-
-		return base64Str;
-	}
-
-	/**
 	 * 数组转字符串
 	 *
-	 * @param strings
-	 *            string数组
+	 * @param strings string数组
 	 * @return 字符串
 	 */
 	public static String stringArrToString(String[] strings) {
@@ -274,8 +226,7 @@ public class StringUtils {
 	/**
 	 * 将字符串首字母大写
 	 *
-	 * @param str
-	 *            字符串
+	 * @param str 字符串
 	 * @return 首字母大写字符串
 	 */
 	public static String toUpperFisrtChar(String str) {
@@ -288,8 +239,7 @@ public class StringUtils {
 	/**
 	 * 根据className获取spring beanName
 	 *
-	 * @param str
-	 *            className
+	 * @param str className
 	 * @return beanName
 	 */
 	public static String getBeanNameByClassName(String str) {
@@ -304,12 +254,9 @@ public class StringUtils {
 	/**
 	 * 从字符串根据标志提取字符串,例：string = "${带提取信息}" topSign = "${" endSign = "}" ;返回值 "带提取信息"
 	 *
-	 * @param string
-	 *            待提取字符串
-	 * @param topSign
-	 *            匹配起始标志
-	 * @param endSign
-	 *            匹配终止标志
+	 * @param string  待提取字符串
+	 * @param topSign 匹配起始标志
+	 * @param endSign 匹配终止标志
 	 * @return 匹配结果
 	 */
 	public static String extractContent(String string, String topSign, String endSign) {
@@ -329,8 +276,7 @@ public class StringUtils {
 	 * 字符串转boolean 判断规则： 字符串中是否包含 ok 、成功、true、success 字符 str2bool("ok") = true 、
 	 * str2bool("ok") = true
 	 *
-	 * @param string
-	 *            待转化字符串
+	 * @param string 待转化字符串
 	 * @return boolean
 	 */
 	public static boolean str2bool(String string) {
@@ -346,10 +292,8 @@ public class StringUtils {
 	/**
 	 * 查找指定字符串是否匹配指定字符串列表中的任意一个字符串
 	 *
-	 * @param str
-	 *            指定字符串
-	 * @param strs
-	 *            需要检查的字符串数组
+	 * @param str  指定字符串
+	 * @param strs 需要检查的字符串数组
 	 * @return 是否匹配
 	 */
 	public static boolean matches(String str, List<String> strs) {
@@ -367,10 +311,8 @@ public class StringUtils {
 	/**
 	 * 查找指定字符串是否匹配指定字符串数组中的任意一个字符串
 	 *
-	 * @param str
-	 *            指定字符串
-	 * @param strs
-	 *            需要检查的字符串数组
+	 * @param str  指定字符串
+	 * @param strs 需要检查的字符串数组
 	 * @return 是否匹配
 	 */
 	public static boolean matches(String str, String... strs) {
@@ -384,9 +326,73 @@ public class StringUtils {
 		}
 		return false;
 	}
-	
-	public static String getUUID(){
-		 return UUID.randomUUID().toString().replace("-", "");
-	 }
+
+	public static String getUUID() {
+		return UUID.randomUUID().toString().replace("-", "");
+	}
+
+	/**
+	 * 截取字符串
+	 * 
+	 * @param str   字符串
+	 * @param start 开始
+	 * @return 结果
+	 */
+	public static String substring(final String str, int start) {
+		if (str == null) {
+			return EMPTYSTR;
+		}
+
+		if (start < 0) {
+			start = str.length() + start;
+		}
+
+		if (start < 0) {
+			start = 0;
+		}
+		if (start > str.length()) {
+			return EMPTYSTR;
+		}
+
+		return str.substring(start);
+	}
+
+	/**
+	 * 截取字符串
+	 * 
+	 * @param str   字符串
+	 * @param start 开始
+	 * @param end   结束
+	 * @return 结果
+	 */
+	public static String substring(final String str, int start, int end) {
+		if (str == null) {
+			return EMPTYSTR;
+		}
+
+		if (end < 0) {
+			end = str.length() + end;
+		}
+		if (start < 0) {
+			start = str.length() + start;
+		}
+
+		if (end > str.length()) {
+			end = str.length();
+		}
+
+		if (start > end) {
+			return EMPTYSTR;
+		}
+
+		if (start < 0) {
+			start = 0;
+		}
+		if (end < 0) {
+			end = 0;
+		}
+
+		return str.substring(start, end);
+	}
 
 }

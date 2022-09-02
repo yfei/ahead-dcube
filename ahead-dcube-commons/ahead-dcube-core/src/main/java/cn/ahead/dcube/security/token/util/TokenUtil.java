@@ -10,7 +10,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
-import cn.ahead.dcube.base.dto.LoginUserModel;
+import cn.ahead.dcube.base.dto.CommonLoginUser;
 import cn.ahead.dcube.commons.util.StringUtils;
 
 /**
@@ -31,7 +31,7 @@ public class TokenUtil {
 	 * @param user
 	 * @return
 	 */
-	public static String sign(LoginUserModel user) {
+	public static String sign(CommonLoginUser user) {
 		String token = null;
 		try {
 			token = JWT.create().withIssuer("auth0").withClaim("account", user.getAccount())

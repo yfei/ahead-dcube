@@ -6,6 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import cn.ahead.dcube.log.enums.CallType;
 import cn.ahead.dcube.log.enums.OperType;
 
 /**
@@ -19,9 +20,14 @@ import cn.ahead.dcube.log.enums.OperType;
 @Documented
 public @interface Log {
 	/**
+	 * 模块描述
+	 */
+	public String module() default "";
+
+	/**
 	 * 功能描述
 	 */
-	public String title() default "";
+	public String function() default "";
 
 	/**
 	 * 功能
@@ -29,7 +35,14 @@ public @interface Log {
 	public OperType oper() default OperType.OTHER;
 
 	/**
-	 * 是否保存请求的参数
+	 * 是否定时任务
+	 * 
+	 * @return
 	 */
-	public boolean saveRequest() default true;
+	public CallType callby() default CallType.REQUEST;
+
+	/**
+	 * 是否保存请求的参数信息
+	 */
+	public boolean details() default true;
 }

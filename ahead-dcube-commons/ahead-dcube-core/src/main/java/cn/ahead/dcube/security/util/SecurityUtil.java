@@ -3,20 +3,18 @@ package cn.ahead.dcube.security.util;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import cn.ahead.dcube.base.constant.AheadSysConstant;
-import cn.ahead.dcube.base.dto.LoginUserModel;
+import cn.ahead.dcube.base.dto.CommonLoginUser;
 import cn.ahead.dcube.base.exception.AheadBaseException;
 import cn.ahead.dcube.base.response.code.SecurityResponseCode;
+import cn.ahead.dcube.utils.ServletUtils;
 
 public class SecurityUtil {
 
-	public static LoginUserModel getCurrentUser() {
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
-				.getRequest();
-		LoginUserModel user = (LoginUserModel) request.getSession().getAttribute(AheadSysConstant.SESSION_USER);
+	public static CommonLoginUser getCurrentUser() {
+		HttpServletRequest request = ServletUtils.getRequestAttributes().getRequest();
+		CommonLoginUser user = (CommonLoginUser) request.getSession().getAttribute(AheadSysConstant.SESSION_USER);
 		if (user == null) {
 			throw new AheadBaseException(SecurityResponseCode.UNAUTHORIZED);
 		}

@@ -9,9 +9,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import cn.ahead.dcube.base.constant.AheadSysConstant;
-import cn.ahead.dcube.base.dto.LoginUserModel;
 import cn.ahead.dcube.base.exception.AheadServiceException;
 import cn.ahead.dcube.commons.util.StringUtils;
+import cn.ahead.dcube.security.dto.SysLoginUser;
 
 /**
  * 用户验证处理
@@ -27,7 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		LoginUserModel user = userService.selectUserByUserName(username);
+		SysLoginUser user = userService.selectUserByUserName(username);
 		if (StringUtils.isNull(user)) {
 			log.info("登录用户：{} 不存在.", username);
 			throw new UsernameNotFoundException("登录用户：" + username + " 不存在");
