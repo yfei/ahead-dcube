@@ -8,13 +8,15 @@ import cn.ahead.dcube.base.constant.AheadSysConstant;
 import cn.ahead.dcube.base.dto.CommonLoginUser;
 import cn.ahead.dcube.base.exception.AheadBaseException;
 import cn.ahead.dcube.base.response.code.SecurityResponseCode;
+import cn.ahead.dcube.commons.crypto.Md5Util;
+import cn.ahead.dcube.security.dto.SysLoginUser;
 import cn.ahead.dcube.utils.ServletUtils;
 
 public class SecurityUtil {
 
-	public static CommonLoginUser getCurrentUser() {
+	public static SysLoginUser getCurrentUser() {
 		HttpServletRequest request = ServletUtils.getRequestAttributes().getRequest();
-		CommonLoginUser user = (CommonLoginUser) request.getSession().getAttribute(AheadSysConstant.SESSION_USER);
+		SysLoginUser user = (SysLoginUser) request.getSession().getAttribute(AheadSysConstant.SESSION_USER);
 		if (user == null) {
 			throw new AheadBaseException(SecurityResponseCode.UNAUTHORIZED);
 		}
@@ -44,4 +46,7 @@ public class SecurityUtil {
 		return passwordEncoder.matches(rawPassword, encodedPassword);
 	}
 
+	public static void main(String[] args) throws Exception {
+		System.out.println(encryptPassword(Md5Util.md5("123456")));
+	}
 }

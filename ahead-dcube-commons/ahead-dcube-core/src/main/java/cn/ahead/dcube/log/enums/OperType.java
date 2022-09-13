@@ -28,6 +28,12 @@ public enum OperType {
 	// 列表
 	LIST,
 
+	// 详情
+	DETAIL,
+
+	// 审核
+	APPROVE,
+
 	// 统计
 	STATISTICS,
 

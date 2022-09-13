@@ -22,7 +22,7 @@ public class OrgEntity extends IAuditEntity {
 
 	@Column(name = "parent_id")
 	private Long parentId;
-	
+
 	@ManyToOne
 	@NotFound(action = NotFoundAction.IGNORE)
 	@JoinColumn(name = "parent_id", insertable = false, updatable = false, nullable = true, foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
@@ -49,7 +49,14 @@ public class OrgEntity extends IAuditEntity {
 
 	/** 部门状态:0正常,1停用 */
 	private Integer status = AheadSysConstant.ORG_STATUS_NORMAL;
-	
+
 	private String remark;
+
+	public String getParentCode() {
+		if (this.parentOrg != null) {
+			return this.parentOrg.getCode();
+		}
+		return null;
+	}
 
 }

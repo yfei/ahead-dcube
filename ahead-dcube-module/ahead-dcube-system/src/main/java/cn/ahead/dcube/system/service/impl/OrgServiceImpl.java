@@ -29,8 +29,9 @@ public class OrgServiceImpl extends FeiServiceImpl implements IOrgService {
 		OrgEntity org = repository.getById(id);
 		SysOrg orgDTO = new SysOrg();
 		BeanUtils.copyProperties(org, orgDTO);
+		orgDTO.setParentOrgCode(org.getParentCode());
 		if (withChildren) {
-			// TODO 
+			// TODO
 		}
 		return orgDTO;
 	}
@@ -111,6 +112,24 @@ public class OrgServiceImpl extends FeiServiceImpl implements IOrgService {
 			nameCodeMap.put(org.getCode(), org.getName());
 		}
 		return nameCodeMap;
+	}
+
+	@Override
+	public SysOrg getParentOrg(String orgCode) {
+		SysOrg currentOrg = this.getOrgByCode(orgCode);
+		return this.getOrgByCode(currentOrg.getParentOrgCode());
+	}
+
+	@Override
+	public SysOrg getOrgByCode(String orgCode) {
+		OrgEntity org = repository.findByCode(orgCode);
+		if (org == null) {
+			return null;
+		}
+		SysOrg orgDTO = new SysOrg();
+		BeanUtils.copyProperties(org, orgDTO);
+		orgDTO.setParentOrgCode(org.getParentCode());
+		return orgDTO;
 	}
 
 }

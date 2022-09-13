@@ -14,6 +14,10 @@ public class SysOrg implements IDTO {
 	private String code;
 
 	private String name;
+	
+	private Long parentId;
+	
+	private String parentOrgCode;
 
 	private String shortName;
 
