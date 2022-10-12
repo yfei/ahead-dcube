@@ -1,0 +1,43 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>cn.ahead.dcube</groupId>
+		<artifactId>ahead-dcube-commons</artifactId>
+		<version>1.0.0</version>
+	</parent>
+	<artifactId>ahead-dcube-sns</artifactId>
+
+	<dependencies>
+		<!--微信小程序-->
+		<dependency>
+			<groupId>com.github.binarywang</groupId>
+			<artifactId>weixin-java-miniapp</artifactId>
+			<version>4.4.0</version>
+		</dependency>
+
+		<!-- spring -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+
+		<!-- spring security 安全认证 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		
+		<!--微信小程序-->
+		<dependency>
+			<groupId>cn.ahead.dcube</groupId>
+			<artifactId>ahead-dcube-base</artifactId>
+			<version>${ahead.version}</version>
+		</dependency>
+	</dependencies>
+</project>

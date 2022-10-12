@@ -35,6 +35,16 @@ public class TokenService {
 	public String setToken(CommonLoginUser loginUser) {
 		return tokenCache.set(loginUser);
 	}
+	
+	/**
+	 * 更新时间
+	 * @param token
+	 * @param loginUser
+	 */
+	public void updateTokenTimeout(String token, CommonLoginUser loginUser) {
+		tokenCache.update(token, loginUser);
+	}
+
 
 	/**
 	 * 设值token

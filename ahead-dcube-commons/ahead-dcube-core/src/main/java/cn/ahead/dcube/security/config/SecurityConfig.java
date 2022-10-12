@@ -91,6 +91,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.authorizeRequests()
 				// 对于登录login 验证码captchaImage 允许匿名访问
 				.antMatchers("/**/login", "/captcha").anonymous()
+				.antMatchers("/sns/**").anonymous()
+
 				// swagger
 				.antMatchers("/swagger-ui.html").anonymous()
                 .antMatchers("/swagger-resources/**").anonymous()
@@ -128,7 +130,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		System.out.println(new BCryptPasswordEncoder().encode(Md5Util.md5("123456")));
+		System.out.println(new BCryptPasswordEncoder().encode(Md5Util.md5("sdjt@2022")));
 	}
 	
 	

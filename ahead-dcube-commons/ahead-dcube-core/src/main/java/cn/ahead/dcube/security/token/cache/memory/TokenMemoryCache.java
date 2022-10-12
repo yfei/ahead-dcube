@@ -64,4 +64,17 @@ public class TokenMemoryCache implements TokenCache {
 		return null;
 	}
 
+	@Override
+	public void update(String token, CommonLoginUser loginUser) {
+		tokenCache.put(token, loginUser);
+	}
+	
+	public static void main(String[] args) throws InterruptedException {
+		TimedCache<String, String> tokenCache = new TimedCache<>(5000L);
+		tokenCache.put("A", "A");
+		Thread.sleep(4000L);
+		tokenCache.put("A", "B");
+		Thread.sleep(4000L);
+		System.out.println(tokenCache.get("A"));
+	}
 }

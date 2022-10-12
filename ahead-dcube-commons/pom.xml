@@ -122,5 +122,7 @@
 		<module>ahead-dcube-core</module>
 		<module>ahead-dcube-redis</module>
 		<module>ahead-dcube-swagger</module>
+		<module>ahead-dcube-sns</module>
+		<module>ahead-dcube-rxtx</module>
 	</modules>
 </project>

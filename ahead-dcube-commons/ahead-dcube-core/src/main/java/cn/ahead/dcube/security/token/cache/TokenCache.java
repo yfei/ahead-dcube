@@ -35,6 +35,13 @@ public interface TokenCache {
 	 * @param token
 	 */
 	public void remove(String token);
+	
+	/**
+	 * 更新
+	 * @param token
+	 * @param loginUser
+	 */
+	public void update(String token,CommonLoginUser loginUser);
 
 	/**
 	 * 列表所有在线的用户

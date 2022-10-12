@@ -62,4 +62,11 @@ public class TokenRedisCache implements TokenCache{
 		return null;
 	}
 
+
+	@Override
+	public void update(String token, CommonLoginUser loginUser) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

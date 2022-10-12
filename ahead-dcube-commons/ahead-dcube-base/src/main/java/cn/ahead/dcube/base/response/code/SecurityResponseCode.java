@@ -3,7 +3,7 @@ package cn.ahead.dcube.base.response.code;
 import lombok.Getter;
 
 /**
- * 授权代码
+ * 授权代码.1000+为security错误
  * 
  * @author yangfei
  *

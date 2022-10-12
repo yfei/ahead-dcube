@@ -1,6 +1,7 @@
 package cn.ahead.dcube.system.service.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -117,7 +118,8 @@ public class OrgServiceImpl extends FeiServiceImpl implements IOrgService {
 	@Override
 	public SysOrg getParentOrg(String orgCode) {
 		SysOrg currentOrg = this.getOrgByCode(orgCode);
-		return this.getOrgByCode(currentOrg.getParentOrgCode());
+		SysOrg sysOrg = this.getOrgByCode(currentOrg.getParentOrgCode());
+		return sysOrg;
 	}
 
 	@Override

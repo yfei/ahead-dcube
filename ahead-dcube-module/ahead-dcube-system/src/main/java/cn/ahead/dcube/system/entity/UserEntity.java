@@ -18,8 +18,6 @@ import org.hibernate.annotations.NotFoundAction;
 import cn.ahead.dcube.base.constant.AheadSysConstant;
 import cn.ahead.dcube.jpa.entity.IAuditEntity;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Table(name = "tb_sys_user")

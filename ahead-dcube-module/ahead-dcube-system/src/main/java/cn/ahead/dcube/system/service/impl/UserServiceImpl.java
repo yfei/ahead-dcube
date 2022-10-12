@@ -104,4 +104,22 @@ public class UserServiceImpl implements IUserService {
 		}
 	}
 
+	@Override
+	public void bindSNS(String type, String account, String passwd, String unionid) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void unbindSNS(String type, String passwd, String account, String unionid) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public SysLoginUser getBySNS(String type, String unionid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
