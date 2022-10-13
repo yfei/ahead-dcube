@@ -21,7 +21,7 @@ public class WxLoginController {
 	
 	@Autowired
     private IWxUserService userInfoService;
-
+	
     /**
      * 登陆接口
      */
@@ -39,4 +39,5 @@ public class WxLoginController {
     public Response getUserInfo(@RequestBody WxUserInfo userInfo) {
         return userInfoService.getUserInfo(userInfo);
     }
+    
 }

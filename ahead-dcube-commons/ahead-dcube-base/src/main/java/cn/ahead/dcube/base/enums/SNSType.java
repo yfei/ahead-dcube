@@ -1,4 +1,4 @@
-package cn.ahead.dcube.sns.enums;
+package cn.ahead.dcube.base.enums;
 
 import lombok.Getter;
 

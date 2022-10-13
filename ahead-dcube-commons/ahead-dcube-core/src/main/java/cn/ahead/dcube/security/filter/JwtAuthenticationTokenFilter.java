@@ -17,6 +17,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import cn.ahead.dcube.base.constant.AheadSysConstant;
+import cn.ahead.dcube.base.enums.SNSType;
+import cn.ahead.dcube.context.SpringContext;
 import cn.ahead.dcube.security.dto.SysLoginUser;
 import cn.ahead.dcube.security.service.IUserSecurityService;
 import cn.ahead.dcube.security.token.service.TokenService;
@@ -31,34 +33,48 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
+	
+	public static final String WECHAT_PREFIX = "wechat:";
 
 	@Autowired
 	private TokenService tokenService;
-	
-	@Autowired
-	private IUserSecurityService service;
 
+	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws ServletException, IOException {
 		// 获得在下面代码中要用的request,response,session对象
 		HttpServletRequest servletRequest = (HttpServletRequest) request;
-		// TODO 判断是否存在社交auth,如果存在,则判断session中是否存在
 		HttpSession session = servletRequest.getSession();
 		List<String> tokens = tokenService.getTokenByOrder(request);
 		boolean authed = false; // 是否验证通过
 		if (tokens.size() > 0) {
 			for (int i = 0; i < tokens.size(); i++) {
-				if (TokenUtil.verifyOnly(tokens.get(i)) && tokenService.getTokenCache().exist(tokens.get(i))) {
-					// token验证通过
-					session.setAttribute(AheadSysConstant.SESSION_USER,
-							tokenService.getTokenCache().get(tokens.get(i)));
-					// 重新设置
-					tokenService.updateTokenTimeout(tokens.get(i),tokenService.getTokenCache().get(tokens.get(i)));
-					authed = true;
-					break;
+				String token = tokens.get(i);
+				if (this.wechatToken(token)) {
+					if (!request.getRequestURI().contains("/login")) { // 非登录
+						SysLoginUser user = (SysLoginUser) session.getAttribute(AheadSysConstant.SESSION_USER);
+						if (user == null) {
+							// 这里造成事务的问题
+							user = SpringContext.getBean(IUserSecurityService.class).getBySNS(SNSType.WEIXIN.getCode(), this.wechatUnionId(token));
+							// token验证通过
+							session.setAttribute(AheadSysConstant.SESSION_USER, user);
+							authed = true;
+							break;
+						}
+					}
+						
 				} else {
-					log.warn("the token {} is invalid.", tokens.get(i));
+					if (TokenUtil.verifyOnly(token) && tokenService.getTokenCache().exist(token)) {
+						// token验证通过
+						session.setAttribute(AheadSysConstant.SESSION_USER, tokenService.getTokenCache().get(token));
+						// 重新设置
+						tokenService.updateTokenTimeout(token, tokenService.getTokenCache().get(token));
+						authed = true;
+						break;
+					} else {
+						log.warn("the token {} is invalid.", token);
+					}
 				}
 			}
 		}
@@ -70,6 +86,17 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 			SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 		}
 		chain.doFilter(request, response);
+	}
+
+	private boolean wechatToken(String token) {
+		if (token.startsWith(WECHAT_PREFIX)) {
+			return true;
+		}
+		return false;
+	}
+	
+	private String wechatUnionId(String token) {
+		return token.substring(WECHAT_PREFIX.length());
 	}
 
 }

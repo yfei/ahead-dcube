@@ -6,6 +6,9 @@ public class AheadSysConstant {
 	public static final String SESSION_USER = "CURRENTUSER";
 
 	public static final String SESSION_CAPTCHA = "CAPTCHA_TEXT";
+	
+	public static final String SNS_FLAG = "SNS_LOGIN";
+
 
 	// session中的token
 	public static final String SESSION_TOKEN = "AHEAD-TOKEN";

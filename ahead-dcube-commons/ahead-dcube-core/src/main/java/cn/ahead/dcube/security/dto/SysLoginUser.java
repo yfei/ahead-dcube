@@ -3,6 +3,7 @@ package cn.ahead.dcube.security.dto;
 import java.util.Collection;
 import java.util.Set;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -56,5 +57,5 @@ public class SysLoginUser extends CommonLoginUser implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
-
+	
 }
