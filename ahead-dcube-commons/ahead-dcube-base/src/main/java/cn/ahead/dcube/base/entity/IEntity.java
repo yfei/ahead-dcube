@@ -1,5 +1,7 @@
 package cn.ahead.dcube.base.entity;
 
-public interface IEntity {
+import java.io.Serializable;
+
+public interface IEntity extends Serializable {
 	
 }

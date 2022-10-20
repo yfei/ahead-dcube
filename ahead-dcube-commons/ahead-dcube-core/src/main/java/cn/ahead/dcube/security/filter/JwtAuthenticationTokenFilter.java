@@ -33,13 +33,12 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
-	
+
 	public static final String WECHAT_PREFIX = "wechat:";
 
 	@Autowired
 	private TokenService tokenService;
 
-	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws ServletException, IOException {
@@ -53,17 +52,19 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 				String token = tokens.get(i);
 				if (this.wechatToken(token)) {
 					if (!request.getRequestURI().contains("/login")) { // 非登录
-						SysLoginUser user = (SysLoginUser) session.getAttribute(AheadSysConstant.SESSION_USER);
-						if (user == null) {
-							// 这里造成事务的问题
-							user = SpringContext.getBean(IUserSecurityService.class).getBySNS(SNSType.WEIXIN.getCode(), this.wechatUnionId(token));
+						SysLoginUser user = SpringContext.getBean(IUserSecurityService.class).getBySNS(SNSType.WEIXIN.getCode(),
+								this.wechatUnionId(token));
+						if (user != null && user.getId()!=null) {
 							// token验证通过
 							session.setAttribute(AheadSysConstant.SESSION_USER, user);
 							authed = true;
 							break;
+
+						} else {
+							session.removeAttribute(AheadSysConstant.SESSION_USER);
 						}
 					}
-						
+
 				} else {
 					if (TokenUtil.verifyOnly(token) && tokenService.getTokenCache().exist(token)) {
 						// token验证通过
@@ -94,7 +95,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 		}
 		return false;
 	}
-	
+
 	private String wechatUnionId(String token) {
 		return token.substring(WECHAT_PREFIX.length());
 	}
