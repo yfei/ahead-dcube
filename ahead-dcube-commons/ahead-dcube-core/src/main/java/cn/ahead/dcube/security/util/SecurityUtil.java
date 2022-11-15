@@ -2,6 +2,7 @@ package cn.ahead.dcube.security.util;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import cn.ahead.dcube.base.constant.AheadSysConstant;
@@ -15,6 +16,7 @@ import cn.ahead.dcube.utils.ServletUtils;
 public class SecurityUtil {
 
 	public static SysLoginUser getCurrentUser() {
+		// SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		HttpServletRequest request = ServletUtils.getRequestAttributes().getRequest();
 		SysLoginUser user = (SysLoginUser) request.getSession().getAttribute(AheadSysConstant.SESSION_USER);
 		if (user == null) {

@@ -93,6 +93,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.authorizeRequests()
 				// 对于登录login 验证码captchaImage 允许匿名访问
 				.antMatchers("/**/login", "/captcha").anonymous()
+				.antMatchers("/**/progress/file/show/**").anonymous()
+				.antMatchers("/**/user/sns/bind").anonymous()
 				// swagger
 				.antMatchers("/swagger-ui.html").anonymous()
                 .antMatchers("/swagger-resources/**").anonymous()

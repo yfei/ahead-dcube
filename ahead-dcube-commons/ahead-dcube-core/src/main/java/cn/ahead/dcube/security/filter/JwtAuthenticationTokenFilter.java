@@ -50,6 +50,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 		if (tokens.size() > 0) {
 			for (int i = 0; i < tokens.size(); i++) {
 				String token = tokens.get(i);
+				// 微信小程序等
 				if (this.wechatToken(token)) {
 					if (!request.getRequestURI().contains("/login")) { // 非登录
 						SysLoginUser user = SpringContext.getBean(IUserSecurityService.class).getBySNS(SNSType.WEIXIN.getCode(),
@@ -58,11 +59,13 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 							// token验证通过
 							session.setAttribute(AheadSysConstant.SESSION_USER, user);
 							authed = true;
+							tokenService.updateTokenTimeout(token, user);
 							break;
 
 						} else {
 							session.removeAttribute(AheadSysConstant.SESSION_USER);
 						}
+						
 					}
 
 				} else {

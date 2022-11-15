@@ -54,10 +54,9 @@ public interface IUserSecurityService {
 	 * 解绑第三方账号
 	 * @param type
 	 * @param passwd
-	 * @param account
 	 * @param unionid
 	 */
-	public void unbindSNS(String type, String passwd, String account, String unionid);
+	public void unbindSNS(String type, String passwd, String unionid);
 	
 	/**
 	 * 根据SNS社交账号得到用户信息

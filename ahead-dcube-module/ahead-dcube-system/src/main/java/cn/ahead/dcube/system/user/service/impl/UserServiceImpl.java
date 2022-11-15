@@ -1,5 +1,6 @@
 package cn.ahead.dcube.system.user.service.impl;
 
+import java.util.Date;
 import java.util.Optional;
 
 import javax.annotation.Resource;
@@ -13,6 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import cn.ahead.dcube.base.constant.AheadSysConstant;
 import cn.ahead.dcube.base.dto.CommonLoginUser;
 import cn.ahead.dcube.base.dto.SysOrg;
 import cn.ahead.dcube.base.response.code.ResponseCode;
@@ -108,22 +110,61 @@ public class UserServiceImpl implements IUserService {
 		}
 	}
 
+	@Transactional
 	@Override
 	public void bindSNS(String type, String account, String passwd, String unionid) {
-		
+		UserEntity user = repository.findByAccount(account);
+		if (user == null || AheadSysConstant.USER_STATUS_DISABLED == user.getStatus()
+				|| !SecurityUtil.matchesPassword(passwd, user.getPassword())) {
+			throw new AheadSecurityException(SecurityResponseCode.USERNOTFOUND);
+		}
+		UserSNSEntity entity = snsRepository.findByTypeAndUnionid(type, unionid);
+		if (entity == null) {
+			entity = new UserSNSEntity();
+			entity.setType(type);
+			entity.setUserId(user.getId());
+			entity.setDisabled("N");
+			entity.setUnionid(unionid);
+			entity.setBindDate(new Date());
+		} else if (entity.isDisabled()) {
+			// 已经绑定.更新
+			entity.setType(type);
+			entity.setUserId(user.getId());
+			entity.setDisabled("N");
+			entity.setUnionid(unionid);
+			entity.setBindDate(new Date());
+		} else {
+			// 更新
+			entity.setType(type);
+			entity.setUserId(user.getId());
+			entity.setDisabled("N");
+			entity.setUnionid(unionid);
+			entity.setBindDate(new Date());
+		}
+		snsRepository.save(entity);
 
 	}
 
+	@Transactional
 	@Override
-	public void unbindSNS(String type, String passwd, String account, String unionid) {
-		// TODO Auto-generated method stub
-
+	public void unbindSNS(String type, String passwd, String unionid) {
+		UserSNSEntity entity = snsRepository.findByTypeAndUnionid(type, unionid);
+		// 不存在或者关联账号不对或者已禁用
+		if (entity == null || entity.getUser() == null
+				|| entity.getUser().getPassword().equals(SecurityUtil.encryptPassword(passwd)) || entity.isDisabled()) {
+			throw new AheadSecurityException(SecurityResponseCode.SNSNOTFOUND);
+		} else if (!SecurityUtil.matchesPassword(passwd, entity.getUser().getPassword())) {
+			throw new AheadSecurityException(SecurityResponseCode.PASSERROR);
+		}
+		entity.setDisabled("Y");
+		entity.setDisabledDate(new Date());
+		snsRepository.save(entity);
 	}
 
 	@Override
 	public SysLoginUser getBySNS(String type, String unionid) {
 		UserSNSEntity userSnsInfo = snsRepository.findByTypeAndUnionid(type, unionid);
-		if (Optional.ofNullable(userSnsInfo).isPresent()) {
+		if (Optional.ofNullable(userSnsInfo).isPresent() && !Optional.of(userSnsInfo).get().isDisabled()) {
 			UserEntity user = Optional.of(userSnsInfo).get().getUser();
 			if (Optional.ofNullable(user).isPresent()) {
 				return this.convert(user);

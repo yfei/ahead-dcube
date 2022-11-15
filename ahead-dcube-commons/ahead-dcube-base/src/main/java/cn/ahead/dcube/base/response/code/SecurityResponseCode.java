@@ -19,7 +19,9 @@ public enum SecurityResponseCode implements StatusCode {
 
 	CAPTCHAERROR(1002, "验证码不正确!"),
 
-	CAPTCHATIMEOUT(1003, "验证码过期!");
+	CAPTCHATIMEOUT(1003, "验证码过期!"),
+	
+	SNSNOTFOUND(1004, "关联用户不存在!");
 
 	private int code;
 
