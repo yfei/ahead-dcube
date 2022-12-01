@@ -5,11 +5,10 @@ import lombok.Getter;
 
 /**
  * 
- * 运行时异常
- * 
- * @author：yangfei<br>
- * @date：2021年3月24日上午9:07:32
- * @since 1.0
+ * @desc: 运行时异常
+ * @date: 2022年11月28日 上午9:19:36<br>
+ * @author:yangfei<br> 
+ * @since 1.0.0
  */
 @Getter
 public class AheadRuntimeException extends RuntimeException {

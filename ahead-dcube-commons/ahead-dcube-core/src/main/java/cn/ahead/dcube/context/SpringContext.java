@@ -12,7 +12,6 @@ import org.springframework.util.Assert;
 
 import lombok.extern.slf4j.Slf4j;
 
-
 /**
  * Spring 运行上下文
  *
@@ -24,7 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SpringContext implements ApplicationContextAware {
 
-
     /**
      * the spring application context
      */
@@ -32,21 +30,21 @@ public class SpringContext implements ApplicationContextAware {
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        appContext = applicationContext;
-        DataSource dataSource = appContext.getBean(DataSource.class);
-        if (dataSource!=null) {
-            try {
-                String url = dataSource.getConnection().getMetaData().getURL();
-                log.debug("初始化数据库信息:" + url);
-            } catch (SQLException e) {
-                log.error("", e);
-            }
+	appContext = applicationContext;
+	DataSource dataSource = appContext.getBean(DataSource.class);
+	if (dataSource != null) {
+	    try {
+		String url = dataSource.getConnection().getMetaData().getURL();
+		log.debug("初始化数据库信息:" + url);
+	    } catch (SQLException e) {
+		log.error("", e);
+	    }
 
-        }
+	}
     }
 
     public static ApplicationContext getContext() {
-        return appContext;
+	return appContext;
     }
 
     /**
@@ -57,22 +55,20 @@ public class SpringContext implements ApplicationContextAware {
      */
     @SuppressWarnings("unchecked")
     public static <T> T getBean(String beanName) {
-        Assert.notNull(beanName, "beanName cannot be empty!");
-        Object bean = appContext.getBean(beanName);
-        if (bean != null) {
-            return (T) bean;
-        }
-        return null;
+	Assert.notNull(beanName, "beanName cannot be empty!");
+	Object bean = appContext.getBean(beanName);
+	if (bean != null) {
+	    return (T) bean;
+	}
+	return null;
     }
-    
+
     @SuppressWarnings("unchecked")
     public static <T> T getBean(Class<T> requiredType) {
-        Object bean = appContext.getBean(requiredType);
-        if (bean != null) {
-            return (T) bean;
-        }
-        return null;
+	Object bean = appContext.getBean(requiredType);
+	if (bean != null) {
+	    return (T) bean;
+	}
+	return null;
     }
 }
-
-

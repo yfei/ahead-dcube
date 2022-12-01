@@ -124,5 +124,7 @@
 		<module>ahead-dcube-swagger</module>
 		<module>ahead-dcube-sns</module>
 		<module>ahead-dcube-rxtx</module>
+		<module>ahead-dcube-upload</module>
+		<!--<module>ahead-dcube-log</module>-->
 	</modules>
 </project>

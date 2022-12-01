@@ -4,11 +4,10 @@ import cn.ahead.dcube.base.response.code.StatusCode;
 
 /**
  * 
- * 异常Base类
- * 
- * @author：yangfei<br>
- * @date：2021年3月24日上午9:07:32
- * @since 1.0
+ * @desc:异常Base类
+ * @date: 2022年11月28日 上午9:19:25<br>
+ * @author:yangfei<br> 
+ * @since 1.0.0
  */
 public class AheadBaseException extends AheadRuntimeException {
 

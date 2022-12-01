@@ -1,5 +1,12 @@
 package cn.ahead.dcube.base.constant;
 
+/**
+ * 
+ * @desc: 系统基础变量
+ * @date: 2022年11月28日 上午9:10:38<br>
+ * @author:yangfei<br> 
+ * @since 1.0.0
+ */
 public class AheadSysConstant {
 
 	// sesson中的当前用户

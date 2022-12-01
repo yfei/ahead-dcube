@@ -7,49 +7,49 @@ import lombok.Data;
 
 @Data
 public class CommonLoginUser implements IDTO {
-	
-	private Long id;
 
-	// 姓名
-	private String name;
+    private Long id;
 
-	// 昵称
-	private String nickName;
+    // 姓名
+    private String name;
 
-	// 登陆账号
-	private String account;
-	
-	// 密码
-	private String password;
+    // 昵称
+    private String nickName;
 
-	// 组织机构
-	private SysOrg org = new SysOrg();
+    // 登陆账号
+    private String account;
 
-	// 手机
-	private String phone;
+    // 密码
+    private String password;
 
-	// 邮箱
-	private String email;
+    // 组织机构
+    private SysOrg org = new SysOrg();
 
-	// 性别
-	private Integer sex = AheadSysConstant.USER_SEX_UNKOWN;
+    // 手机
+    private String phone;
 
-	// 头像
-	private String avtar;
+    // 邮箱
+    private String email;
 
-	// 用户类型
-	private Integer userType = AheadSysConstant.USER_TYPE_COMMON;
+    // 性别
+    private Integer sex = AheadSysConstant.USER_SEX_UNKOWN;
 
-	// 注册时间
-	private Date registerTime;
+    // 头像
+    private String avtar;
 
-	// 最后登录时间
-	private Date lstLoginTime;
+    // 用户类型
+    private Integer userType = AheadSysConstant.USER_TYPE_COMMON;
 
-	// 状态 0 正常 1 禁用
-	private int status = AheadSysConstant.USER_STATUS_NORMAL;
+    // 注册时间
+    private Date registerTime;
 
-	// 备注
-	private String remark;
-	
+    // 最后登录时间
+    private Date lstLoginTime;
+
+    // 状态 0 正常 1 禁用
+    private int status = AheadSysConstant.USER_STATUS_NORMAL;
+
+    // 备注
+    private String remark;
+
 }

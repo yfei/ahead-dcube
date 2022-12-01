@@ -25,7 +25,7 @@ public interface ISimpleDictService extends IService {
 	 * @param pcode
 	 * @return
 	 */
-	public Map<String, String> listFlatChildren(String type, String pcode);
+	public Map<String, String> listFlatChildren(String type, String pcode, boolean nameAsKey);
 	
 	/**
 	 * 查询所有的,并按照type分类
