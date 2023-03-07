@@ -46,19 +46,28 @@ public interface IOrgService extends IService {
 	 * 
 	 * @return
 	 */
-	public Map<String, String> getOrgMap();
-	
+	public Map<String, String> getOrgMap(boolean nameAsKey);
+
 	/**
 	 * 得到父级组织
+	 * 
 	 * @param orgCode
 	 * @return
 	 */
 	public SysOrg getParentOrg(String orgCode);
-	
+
 	/**
 	 * 根据code获取org信息
+	 * 
 	 * @param orgCode
 	 * @return
 	 */
 	public SysOrg getOrgByCode(String orgCode);
+
+	/**
+	 * 获取授权的组织代码
+	 * 
+	 * @return
+	 */
+	public List<SysOrg> getAuthedOrgs();
 }

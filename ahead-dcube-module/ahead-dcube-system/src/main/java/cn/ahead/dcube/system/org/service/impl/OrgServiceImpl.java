@@ -1,7 +1,6 @@
 package cn.ahead.dcube.system.org.service.impl;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +14,7 @@ import cn.ahead.dcube.base.dto.SysOrg;
 import cn.ahead.dcube.jpa.fei.query.filter.IFilter;
 import cn.ahead.dcube.jpa.fei.query.filter.impl.SimpleFilter;
 import cn.ahead.dcube.jpa.fei.service.impl.FeiServiceImpl;
+import cn.ahead.dcube.security.util.SecurityUtil;
 import cn.ahead.dcube.system.org.dao.OrgRepository;
 import cn.ahead.dcube.system.org.entity.OrgEntity;
 import cn.ahead.dcube.system.org.service.IOrgService;
@@ -24,7 +24,7 @@ public class OrgServiceImpl extends FeiServiceImpl implements IOrgService {
 
 	@Autowired
 	private OrgRepository repository;
-
+	
 	@Override
 	public SysOrg getOrg(Long id, boolean withChildren) {
 		OrgEntity org = this.getById(OrgEntity.class, id);
@@ -105,12 +105,16 @@ public class OrgServiceImpl extends FeiServiceImpl implements IOrgService {
 	}
 
 	@Override
-	public Map<String, String> getOrgMap() {
+	public Map<String, String> getOrgMap(boolean nameAsKey) {
 		Map<String, String> nameCodeMap = new HashMap<String, String>();
 		IFilter filter = new SimpleFilter("status", AheadSysConstant.ORG_STATUS_NORMAL);
 		List<OrgEntity> orgs = this.get(OrgEntity.class, filter);
 		for (OrgEntity org : orgs) {
-			nameCodeMap.put(org.getCode(), org.getName());
+			if (nameAsKey) {
+				nameCodeMap.put(org.getName(), org.getCode());
+			} else {
+				nameCodeMap.put(org.getCode(), org.getName());
+			}
 		}
 		return nameCodeMap;
 	}
@@ -132,6 +136,12 @@ public class OrgServiceImpl extends FeiServiceImpl implements IOrgService {
 		BeanUtils.copyProperties(org, orgDTO);
 		orgDTO.setParentOrgCode(org.getParentCode());
 		return orgDTO;
+	}
+
+	@Override
+	public List<SysOrg> getAuthedOrgs() {
+		SecurityUtil.getCurrentUser();
+		return null;
 	}
 
 }

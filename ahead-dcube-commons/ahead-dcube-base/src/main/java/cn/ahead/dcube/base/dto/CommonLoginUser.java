@@ -5,6 +5,13 @@ import java.util.Date;
 import cn.ahead.dcube.base.constant.AheadSysConstant;
 import lombok.Data;
 
+/**
+ * 
+ * @desc: 登陆账号DTO
+ * @date: 2023年2月27日 下午3:31:29<br>
+ * @author:yangfei<br> 
+ * @since 1.0.0
+ */
 @Data
 public class CommonLoginUser implements IDTO {
 
