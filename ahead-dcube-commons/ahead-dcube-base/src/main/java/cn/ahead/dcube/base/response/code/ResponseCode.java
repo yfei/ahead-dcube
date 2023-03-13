@@ -14,7 +14,9 @@ public enum ResponseCode implements StatusCode {
 
     SUCCESS(200, "请求成功"),
 
-    ERROR(500, "请求失败");
+    ERROR(500, "请求失败"),
+	
+	UNAUTHORIZED(401, "认证失败!");
 
     private int code;
 

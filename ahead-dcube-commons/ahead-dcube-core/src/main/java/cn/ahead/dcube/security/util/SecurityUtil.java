@@ -7,8 +7,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import cn.ahead.dcube.base.constant.AheadSysConstant;
 import cn.ahead.dcube.base.exception.AheadBaseException;
 import cn.ahead.dcube.base.response.code.SecurityResponseCode;
+import cn.ahead.dcube.commons.crypto.Md5Util;
 import cn.ahead.dcube.security.dto.SysLoginUser;
 import cn.ahead.dcube.utils.ServletUtils;
+import cn.hutool.crypto.digest.MD5;
 
 public class SecurityUtil {
 
@@ -48,8 +50,8 @@ public class SecurityUtil {
 		return passwordEncoder.matches(rawPassword, encodedPassword);
 	}
 	
-	public static void main(String[] args) {
-		System.out.println(encryptPassword("6cf7fed70787edc3f23648b8540c5e6f"));
+	public static void main(String[] args) throws Exception {
+		System.out.println(Md5Util.md5("sdgs@2023"));
 	}
 
 }

@@ -940,7 +940,7 @@ public class JodaUtil {
     }
 
     /**
-     * 根据日期取上一个工作日
+     * 根据日期取上一个日期
      *
      * @param date
      * @return
