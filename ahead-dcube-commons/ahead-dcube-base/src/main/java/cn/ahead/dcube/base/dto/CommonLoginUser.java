@@ -25,6 +25,8 @@ public class CommonLoginUser implements IDTO {
 
     // 登陆账号
     private String account;
+    
+    private String unionId;
 
     // 密码
     private String password;

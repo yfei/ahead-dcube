@@ -1,8 +1,5 @@
 package cn.ahead.dcube.security.token.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
@@ -35,16 +32,16 @@ public class TokenService {
 	public String setToken(CommonLoginUser loginUser) {
 		return tokenCache.set(loginUser);
 	}
-	
+
 	/**
 	 * 更新时间
+	 * 
 	 * @param token
 	 * @param loginUser
 	 */
 	public void updateTokenTimeout(String token, CommonLoginUser loginUser) {
 		tokenCache.update(token, loginUser);
 	}
-
 
 	/**
 	 * 设值token
@@ -55,20 +52,21 @@ public class TokenService {
 		tokenCache.remove(token);
 	}
 
-	public List<String> getTokenByOrder(HttpServletRequest request) {
+	public String getTokenByOrder(HttpServletRequest request) {
 		HttpServletRequest servletRequest = (HttpServletRequest) request;
-		List<String> tokens = new ArrayList<String>();
+		String token = null;
 
 		String headerToken = getTokenFromHeaders(servletRequest);
 		if (StringUtils.isNotEmpty(headerToken)) {
-			tokens.add(headerToken);
+			token = headerToken;
+		} else {
+			String cookieToken = getTokenFromCookie(servletRequest);
+			if (StringUtils.isNotEmpty(cookieToken)) {
+				token = cookieToken;
+			}
 		}
 
-		String cookieToken = getTokenFromCookie(servletRequest);
-		if (StringUtils.isNotEmpty(cookieToken)) {
-			tokens.add(cookieToken);
-		}
-		return tokens;
+		return token;
 	}
 
 	public String getTokenFromHeaders(HttpServletRequest request) {

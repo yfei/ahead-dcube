@@ -1,14 +1,20 @@
 package cn.ahead.dcube.sns.weixin.config;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 
+import com.github.binarywang.wxpay.config.WxPayConfig;
+import com.github.binarywang.wxpay.service.WxPayService;
+import com.github.binarywang.wxpay.service.impl.WxPayServiceImpl;
 import com.google.common.collect.Lists;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
@@ -27,104 +33,126 @@ import me.chanjar.weixin.common.error.WxRuntimeException;
 @Configuration
 @EnableConfigurationProperties(WxMaProperties.class)
 public class WxMaConfiguration {
-    private final WxMaProperties properties;
+	private final WxMaProperties properties;
 
-    @Autowired
-    public WxMaConfiguration(WxMaProperties properties) {
-        this.properties = properties;
-    }
+	@Autowired
+	public WxMaConfiguration(WxMaProperties properties) {
+		this.properties = properties;
+	}
 
-    @Bean
-    public WxMaService wxMaService() {
-        List<WxMaProperties.Config> configs = this.properties.getConfigs();
-        if (configs == null) {
-            throw new WxRuntimeException("大哥，拜托先看下项目首页的说明（readme文件），添加下相关配置，注意别配错了！");
-        }
-        WxMaService maService = new WxMaServiceImpl();
-        maService.setMultiConfigs(
-            configs.stream()
-                .map(a -> {
-                    WxMaDefaultConfigImpl config = new WxMaDefaultConfigImpl();
-//                WxMaDefaultConfigImpl config = new WxMaRedisConfigImpl(new JedisPool());
-                    // 使用上面的配置时，需要同时引入jedis-lock的依赖，否则会报类无法找到的异常
-                    config.setAppid(a.getAppid());
-                    config.setSecret(a.getSecret());
-                    config.setToken(a.getToken());
-                    config.setAesKey(a.getAesKey());
-                    config.setMsgDataFormat(a.getMsgDataFormat());
-                    return config;
-                }).collect(Collectors.toMap(WxMaDefaultConfigImpl::getAppid, a -> a, (o, n) -> o)));
-        return maService;
-    }
+	@Bean
+	public WxMaService wxMaService() {
+		List<WxMaProperties.Config> configs = this.properties.getConfigs();
+		if (configs == null) {
+			throw new WxRuntimeException("大哥，拜托先看下项目首页的说明（readme文件），添加下相关配置，注意别配错了！");
+		}
+		WxMaService maService = new WxMaServiceImpl();
+		maService.setMultiConfigs(configs.stream().map(a -> {
+			WxMaDefaultConfigImpl config = new WxMaDefaultConfigImpl();
+			// WxMaDefaultConfigImpl config = new WxMaRedisConfigImpl(new
+			// JedisPool());
+			// 使用上面的配置时，需要同时引入jedis-lock的依赖，否则会报类无法找到的异常
+			config.setAppid(a.getAppid());
+			config.setSecret(a.getSecret());
+			config.setToken(a.getToken());
+			config.setAesKey(a.getAesKey());
+			config.setMsgDataFormat(a.getMsgDataFormat());
+			return config;
+		}).collect(Collectors.toMap(WxMaDefaultConfigImpl::getAppid, a -> a, (o, n) -> o)));
+		return maService;
+	}
+	
 
-    @Bean
-    public WxMaMessageRouter wxMaMessageRouter(WxMaService wxMaService) {
-        final WxMaMessageRouter router = new WxMaMessageRouter(wxMaService);
-        router
-            .rule().handler(logHandler).next()
-            .rule().async(false).content("订阅消息").handler(subscribeMsgHandler).end()
-            .rule().async(false).content("文本").handler(textHandler).end()
-            .rule().async(false).content("图片").handler(picHandler).end()
-            .rule().async(false).content("二维码").handler(qrcodeHandler).end();
-        return router;
-    }
+	@Bean
+	public WxPayService wxPayService() {
+		List<WxMaProperties.Config> configs = this.properties.getConfigs();
+		if (configs == null) {
+			throw new WxRuntimeException("大哥，拜托先看下项目首页的说明（readme文件），添加下相关配置，注意别配错了！");
+		}
+		WxPayService wxPayService = new WxPayServiceImpl();
+		wxPayService.setMultiConfig(configs.stream().map(a -> {
+			WxPayConfig payConfig = new WxPayConfig();
+			payConfig.setAppId(a.getAppid());
+			payConfig.setMchId(a.getMchId());
+			payConfig.setMchKey(a.getMchKeyV2());
+			payConfig.setNotifyUrl(a.getPayNotifyUrl());
+			payConfig.setApiV3Key(a.getMchKeyV3());
+			payConfig.setKeyPath(a.getPayP12Path());
+			payConfig.setPrivateKeyPath(a.getPayKeyPath());
+			payConfig.setPrivateCertPath(a.getPayCertPath());
+			payConfig.setTradeType("JSAPI");
+			payConfig.setSignType("MD5");
+			return payConfig;
+		}).collect(Collectors.toMap(WxPayConfig::getMchId, a -> a, (o, n) -> o)));
+		return wxPayService;
+	}
 
-    private final WxMaMessageHandler subscribeMsgHandler = (wxMessage, context, service, sessionManager) -> {
-        service.getMsgService().sendSubscribeMsg(WxMaSubscribeMessage.builder()
-            .templateId("此处更换为自己的模板id")
-            .data(Lists.newArrayList(
-                new WxMaSubscribeMessage.MsgData("keyword1", "339208499")))
-            .toUser(wxMessage.getFromUser())
-            .build());
-        return null;
-    };
+	@Bean
+	public WxMaMessageRouter wxMaMessageRouter(WxMaService wxMaService) {
+		final WxMaMessageRouter router = new WxMaMessageRouter(wxMaService);
+		router.rule().handler(logHandler).next().rule().async(false).content("订阅消息").handler(subscribeMsgHandler).end()
+		        .rule().async(false).content("文本").handler(textHandler).end().rule().async(false).content("图片")
+		        .handler(picHandler).end().rule().async(false).content("二维码").handler(qrcodeHandler).end();
+		return router;
+	}
 
-    private final WxMaMessageHandler logHandler = (wxMessage, context, service, sessionManager) -> {
-        log.info("收到消息：" + wxMessage.toString());
-        service.getMsgService().sendKefuMsg(WxMaKefuMessage.newTextBuilder().content("收到信息为：" + wxMessage.toJson())
-            .toUser(wxMessage.getFromUser()).build());
-        return null;
-    };
+	private final WxMaMessageHandler subscribeMsgHandler = (wxMessage, context, service, sessionManager) -> {
+		service.getMsgService()
+		        .sendSubscribeMsg(WxMaSubscribeMessage.builder().templateId("此处更换为自己的模板id")
+		                .data(Lists.newArrayList(new WxMaSubscribeMessage.MsgData("keyword1", "339208499")))
+		                .toUser(wxMessage.getFromUser()).build());
+		return null;
+	};
 
-    private final WxMaMessageHandler textHandler = (wxMessage, context, service, sessionManager) -> {
-        service.getMsgService().sendKefuMsg(WxMaKefuMessage.newTextBuilder().content("回复文本消息")
-            .toUser(wxMessage.getFromUser()).build());
-        return null;
-    };
+	private final WxMaMessageHandler logHandler = (wxMessage, context, service, sessionManager) -> {
+		log.info("收到消息：" + wxMessage.toString());
+		service.getMsgService().sendKefuMsg(WxMaKefuMessage.newTextBuilder().content("收到信息为：" + wxMessage.toJson())
+		        .toUser(wxMessage.getFromUser()).build());
+		return null;
+	};
 
-    private final WxMaMessageHandler picHandler = (wxMessage, context, service, sessionManager) -> {
+	private final WxMaMessageHandler textHandler = (wxMessage, context, service, sessionManager) -> {
+		service.getMsgService().sendKefuMsg(
+		        WxMaKefuMessage.newTextBuilder().content("回复文本消息").toUser(wxMessage.getFromUser()).build());
+		return null;
+	};
+
+	private final WxMaMessageHandler picHandler = (wxMessage, context, service, sessionManager) -> {
+		try {
+			WxMediaUploadResult uploadResult = service.getMediaService().uploadMedia("image", "png",
+			        ClassLoader.getSystemResourceAsStream("tmp.png"));
+			service.getMsgService().sendKefuMsg(WxMaKefuMessage.newImageBuilder().mediaId(uploadResult.getMediaId())
+			        .toUser(wxMessage.getFromUser()).build());
+		} catch (WxErrorException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	};
+
+	private final WxMaMessageHandler qrcodeHandler = (wxMessage, context, service, sessionManager) -> {
+		try {
+			final File file = service.getQrcodeService().createQrcode("123", 430);
+			WxMediaUploadResult uploadResult = service.getMediaService().uploadMedia("image", file);
+			service.getMsgService().sendKefuMsg(WxMaKefuMessage.newImageBuilder().mediaId(uploadResult.getMediaId())
+			        .toUser(wxMessage.getFromUser()).build());
+		} catch (WxErrorException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	};
+
+	public byte[] getCertStream() {
+        byte[] certBis = null;
         try {
-            WxMediaUploadResult uploadResult = service.getMediaService()
-                .uploadMedia("image", "png",
-                    ClassLoader.getSystemResourceAsStream("tmp.png"));
-            service.getMsgService().sendKefuMsg(
-                WxMaKefuMessage
-                    .newImageBuilder()
-                    .mediaId(uploadResult.getMediaId())
-                    .toUser(wxMessage.getFromUser())
-                    .build());
-        } catch (WxErrorException e) {
+            InputStream certStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("CRT/apiclient_cert.p12");
+            certBis = IOUtils.toByteArray(certStream);
+            certStream.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return null;
-    };
-
-    private final WxMaMessageHandler qrcodeHandler = (wxMessage, context, service, sessionManager) -> {
-        try {
-            final File file = service.getQrcodeService().createQrcode("123", 430);
-            WxMediaUploadResult uploadResult = service.getMediaService().uploadMedia("image", file);
-            service.getMsgService().sendKefuMsg(
-                WxMaKefuMessage
-                    .newImageBuilder()
-                    .mediaId(uploadResult.getMediaId())
-                    .toUser(wxMessage.getFromUser())
-                    .build());
-        } catch (WxErrorException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    };
+        return certBis;
+    }
 
 }

@@ -17,7 +17,7 @@ import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.filter.CorsFilter;
 
 import cn.ahead.dcube.commons.crypto.Md5Util;
-import cn.ahead.dcube.security.filter.JwtAuthenticationTokenFilter;
+import cn.ahead.dcube.security.filter.AuthenticationTokenFilter;
 import cn.ahead.dcube.security.handler.AuthenticationEntryPointImpl;
 import cn.ahead.dcube.security.handler.LogoutSuccessHandlerImpl;
 
@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 * token认证过滤器
 	 */
 	@Autowired
-	private JwtAuthenticationTokenFilter authenticationTokenFilter;
+	private AuthenticationTokenFilter authenticationTokenFilter;
 
 	/**
 	 * 跨域过滤器
@@ -94,7 +94,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				// 对于登录login 验证码captchaImage 允许匿名访问
 				.antMatchers("/**/login", "/captcha").anonymous()
 				.antMatchers("/**/progress/file/show/**").anonymous()
-				.antMatchers("/**/user/sns/bind").anonymous()
+				.antMatchers("/**/user/sns/bind").anonymous() // sns账户绑定
+				.antMatchers("/**/anonymous/**").anonymous() // 匿名访问
 				// swagger
 				.antMatchers("/swagger-ui.html").anonymous()
                 .antMatchers("/swagger-resources/**").anonymous()
@@ -111,8 +112,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// 添加JWT filter
 		httpSecurity.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 		// 添加CORS filter
-		httpSecurity.addFilterBefore(corsFilter, JwtAuthenticationTokenFilter.class);
+		httpSecurity.addFilterBefore(corsFilter, AuthenticationTokenFilter.class);
 		httpSecurity.addFilterBefore(corsFilter, LogoutFilter.class);
+		
 	}
 
 	/**

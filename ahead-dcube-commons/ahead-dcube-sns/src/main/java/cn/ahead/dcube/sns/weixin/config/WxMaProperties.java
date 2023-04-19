@@ -38,6 +38,31 @@ public class WxMaProperties {
 		 * 消息格式，XML或者JSON
 		 */
 		private String msgDataFormat;
+		
+		/**
+		 * 商户号
+		 */
+		private String mchId;
+
+	    /**
+	     * 商户秘钥
+	     */
+		private String mchKeyV2;
+		
+		/**
+	     * 商户秘钥
+	     */
+		private String mchKeyV3;
+		
+		private String payNotifyUrl;
+		
+		private String refundNotifyUrl;
+		
+		private String payP12Path;
+		
+		private String payCertPath;
+		
+		private String payKeyPath;
 	}
 
 }
